@@ -2,6 +2,26 @@ import { SpotifyApi } from "@spotify/web-api-ts-sdk";
 import { ChangeEvent, useState } from "react";
 import SongInfo from "../../types";
 import SongInfoDisplay from "../SongInfoDisplay";
+import { styled } from "styled-components";
+
+const SongSearchStyled = styled.div`
+    background: red;
+    margin: auto;
+    padding: 20px;
+    width: 70%;
+
+    display: flex;
+    justify-content: space-between;
+
+    input {
+        color: darkcyan;
+        width: 100%;
+    }
+
+    button {
+        background: purple;
+    }
+`
 
 const SongSearch = ({api}: {api: SpotifyApi}) => {
     const [songName, setSongName] = useState("");
@@ -31,10 +51,9 @@ const SongSearch = ({api}: {api: SpotifyApi}) => {
     }
 
     return (
-        <div>
-            Song Name: <input onChange={songInputChange}/>
+        <SongSearchStyled>
+            <input onChange={songInputChange} placeholder={"Song Name"}/>
             <button onClick={getSongs}>Search</button>
-            <br />
             {
                 results.map((result) => {
                     return (
@@ -42,7 +61,7 @@ const SongSearch = ({api}: {api: SpotifyApi}) => {
                     )
                 })
             }
-        </div>
+        </SongSearchStyled>
     );
 };
 

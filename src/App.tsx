@@ -1,5 +1,6 @@
 import { SpotifyApi } from '@spotify/web-api-ts-sdk';
-import SongSearch from './components/SongSearch';
+import SongSearch from './components/SongSearch/SongSearch';
+import GlobalStyles from './styles/Global';
 
 const client_id = '269d6b0c0ffe4e32b0d055155b0f8e82';
 const redirect_uri = "http://localhost:3000/"
@@ -17,6 +18,7 @@ auth();
 function App() {
   return (
     <div className="App">
+      <GlobalStyles />
       <SongSearch api={api}/>
     </div>
   );
