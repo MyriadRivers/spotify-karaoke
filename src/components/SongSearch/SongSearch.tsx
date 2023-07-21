@@ -1,7 +1,6 @@
 import { SpotifyApi } from "@spotify/web-api-ts-sdk";
 import { ChangeEvent, useState } from "react";
 import SongInfo from "../../types";
-import SongInfoDisplay from "../SongInfoDisplay";
 import { styled } from "styled-components";
 import SearchResults from "./SearchResults";
 
@@ -26,9 +25,11 @@ const SongSearchStyled = styled.div`
 
 const SongSearch = ({api}: {api: SpotifyApi}) => {
     const [songName, setSongName] = useState("");
+    const [prevSongName, setPrevSongName] = useState("");
     const [showingResults, setShowingResults] = useState(false);
     const [page, setPage] = useState(0);
     const [results, setResults]= useState(Array<SongInfo>);
+    const [resetScroll, setResetScroll] = useState(false);
 
     const songInputChange = (event: ChangeEvent) => {
         if (event.target) {
@@ -39,13 +40,18 @@ const SongSearch = ({api}: {api: SpotifyApi}) => {
 
     const selectSong = (song: string) => {
         console.log(song);
+        // Hide dropdown
         setShowingResults(false);
+        // Reset results and page
+        setResults([]);
         setPage(0);
     }
 
     const getSongs = async () => {
-        let rawResults = await api.search(songName, ["track"], undefined, 10, page * 10);
-        setPage(page + 1);
+        setResetScroll(prevSongName !== songName);
+
+        let newPage = prevSongName !== songName ? 0 : page + 1;
+        let rawResults = await api.search(songName, ["track"], undefined, 10, newPage * 10);
         let tracks = rawResults.tracks.items;
         let songInfoResults: Array<SongInfo> = tracks.map((track) => {
             return {
@@ -56,8 +62,10 @@ const SongSearch = ({api}: {api: SpotifyApi}) => {
                 image: track.album.images[2] 
             }
         })
-        // Append the results
-        setResults([...results, ...songInfoResults]);
+        // Show new results, or append if scrolling down
+        setPage(newPage);
+        setResults(prevSongName !== songName ? songInfoResults : [...results, ...songInfoResults]);
+        setPrevSongName(songName);
         setShowingResults(true);
     }
 
@@ -67,7 +75,7 @@ const SongSearch = ({api}: {api: SpotifyApi}) => {
                 <input onChange={songInputChange} placeholder={"Song Name"}/>
                 <button onClick={getSongs}>Search</button>
             </div>
-            { showingResults && <SearchResults songs={results} onSelect={selectSong} onMaxScroll={getSongs}/> }
+            { showingResults && <SearchResults songs={results} onSelect={selectSong} onMaxScroll={getSongs} resetScroll={resetScroll}/> }
         </SongSearchStyled>
     );
 };
