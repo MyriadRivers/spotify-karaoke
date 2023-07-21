@@ -24,6 +24,7 @@ const AppContainer = styled.div`
   width: 70%;
 
   margin: auto;
+  box-sizing: border-box;
   padding: 20px;
   
   display: flex;

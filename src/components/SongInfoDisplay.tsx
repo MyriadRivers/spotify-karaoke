@@ -1,8 +1,9 @@
+import { MouseEventHandler } from "react";
 import SongInfo from "../types";
 
-const SongInfoDisplay = ({songInfo}: {songInfo: SongInfo}) => {
+const SongInfoDisplay = ({songInfo, onClick}: {songInfo: SongInfo, onClick: Function}) => {
     return (
-        <div>
+        <div onClick={() => onClick(songInfo.name)}>
             <b>{songInfo.name}</b>
             <br/>
             {songInfo.artists}

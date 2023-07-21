@@ -1,6 +1,7 @@
 import { styled } from "styled-components"
 import SongInfo from "../../types";
 import SongInfoDisplay from "../SongInfoDisplay";
+import { MouseEventHandler } from "react";
 
 const SearchResultsStyled = styled.div`
     background: blue;
@@ -10,13 +11,15 @@ const SearchResultsStyled = styled.div`
     position: absolute;
 `
 
-const SearchResults = ({songs} : {songs: SongInfo[]}) => {
+const SearchResults = ({songs, onClick} : {songs: SongInfo[], onClick: Function}) => {
     return (
         <SearchResultsStyled>
             {
-                songs.map((song) => {
+                songs.map((song, index) => {
                     return (
-                        <SongInfoDisplay songInfo={song}/>
+                        <div style={{background: index % 2 === 0 ? "turquoise" : "pink"}} key={index}>
+                            <SongInfoDisplay songInfo={song} onClick={onClick}/>
+                        </div>  
                     );
                 })
             }

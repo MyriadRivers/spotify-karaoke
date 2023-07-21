@@ -37,6 +37,11 @@ const SongSearch = ({api}: {api: SpotifyApi}) => {
         }
     };
 
+    const selectSong = (song: string) => {
+        console.log(song);
+        setShowingResults(false);
+    }
+
     const getSongs = async () => {
         let rawResults = await api.search(songName, ["track"], undefined, 10, page);
         let tracks = rawResults.tracks.items;
@@ -59,7 +64,7 @@ const SongSearch = ({api}: {api: SpotifyApi}) => {
                 <input onChange={songInputChange} placeholder={"Song Name"}/>
                 <button onClick={getSongs}>Search</button>
             </div>
-            { showingResults && <SearchResults songs={results}/> }
+            { showingResults && <SearchResults songs={results} onClick={selectSong}/> }
         </SongSearchStyled>
     );
 };
