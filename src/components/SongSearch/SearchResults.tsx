@@ -5,7 +5,9 @@ import SongInfoDisplay from "../SongInfoDisplay";
 const SearchResultsStyled = styled.div`
     background: blue;
     height: 300px;
+    width: 100%;
     overflow: scroll;
+    position: absolute;
 `
 
 const SearchResults = ({songs} : {songs: SongInfo[]}) => {

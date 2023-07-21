@@ -7,9 +7,7 @@ import SearchResults from "./SearchResults";
 
 const SongSearchStyled = styled.div`
     background: red;
-    margin: auto;
-    width: 70%;
-    height: 100%;
+    position: relative;
     
     .search-bar {
         display: flex;
