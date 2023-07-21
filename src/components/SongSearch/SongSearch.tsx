@@ -3,15 +3,18 @@ import { ChangeEvent, useState } from "react";
 import SongInfo from "../../types";
 import SongInfoDisplay from "../SongInfoDisplay";
 import { styled } from "styled-components";
+import SearchResults from "./SearchResults";
 
 const SongSearchStyled = styled.div`
     background: red;
     margin: auto;
-    padding: 20px;
     width: 70%;
-
-    display: flex;
-    justify-content: space-between;
+    height: 100%;
+    
+    .search-bar {
+        display: flex;
+        justify-content: space-between;
+    }
 
     input {
         color: darkcyan;
@@ -25,6 +28,7 @@ const SongSearchStyled = styled.div`
 
 const SongSearch = ({api}: {api: SpotifyApi}) => {
     const [songName, setSongName] = useState("");
+    const [showingResults, setShowingResults] = useState(false);
     const [page, setPage] = useState(0);
     const [results, setResults]= useState(Array<SongInfo>);
 
@@ -47,20 +51,17 @@ const SongSearch = ({api}: {api: SpotifyApi}) => {
                 image: track.album.images[2] 
             }
         })
-        setResults(songInfoResults)
+        setResults(songInfoResults);
+        setShowingResults(true);
     }
 
     return (
         <SongSearchStyled>
-            <input onChange={songInputChange} placeholder={"Song Name"}/>
-            <button onClick={getSongs}>Search</button>
-            {
-                results.map((result) => {
-                    return (
-                        <SongInfoDisplay songInfo={result}/>
-                    )
-                })
-            }
+            <div className="search-bar">
+                <input onChange={songInputChange} placeholder={"Song Name"}/>
+                <button onClick={getSongs}>Search</button>
+            </div>
+            { showingResults && <SearchResults songs={results}/> }
         </SongSearchStyled>
     );
 };
