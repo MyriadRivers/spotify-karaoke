@@ -40,10 +40,12 @@ const SongSearch = ({api}: {api: SpotifyApi}) => {
     const selectSong = (song: string) => {
         console.log(song);
         setShowingResults(false);
+        setPage(0);
     }
 
     const getSongs = async () => {
-        let rawResults = await api.search(songName, ["track"], undefined, 10, page);
+        let rawResults = await api.search(songName, ["track"], undefined, 10, page * 10);
+        setPage(page + 1);
         let tracks = rawResults.tracks.items;
         let songInfoResults: Array<SongInfo> = tracks.map((track) => {
             return {
@@ -54,7 +56,8 @@ const SongSearch = ({api}: {api: SpotifyApi}) => {
                 image: track.album.images[2] 
             }
         })
-        setResults(songInfoResults);
+        // Append the results
+        setResults([...results, ...songInfoResults]);
         setShowingResults(true);
     }
 
@@ -64,7 +67,7 @@ const SongSearch = ({api}: {api: SpotifyApi}) => {
                 <input onChange={songInputChange} placeholder={"Song Name"}/>
                 <button onClick={getSongs}>Search</button>
             </div>
-            { showingResults && <SearchResults songs={results} onClick={selectSong}/> }
+            { showingResults && <SearchResults songs={results} onSelect={selectSong} onMaxScroll={getSongs}/> }
         </SongSearchStyled>
     );
 };
