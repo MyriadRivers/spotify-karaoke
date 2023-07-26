@@ -38,8 +38,17 @@ const SongSearch = ({api}: {api: SpotifyApi}) => {
         }
     };
 
-    const selectSong = (song: string) => {
+    const selectSong = async (song: string) => {
         console.log(song);
+        const response = await fetch("/lyrics", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({a: 1, b: 2})
+        })
+        console.log("response:\n")
+        console.log(response.text());
         // Hide dropdown
         setShowingResults(false);
         // Reset results and page
