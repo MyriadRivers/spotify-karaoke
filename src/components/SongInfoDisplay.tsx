@@ -3,7 +3,7 @@ import SongInfo from "../types";
 const SongInfoDisplay = ({songInfo, onClick}: {songInfo: SongInfo, onClick: Function}) => {
     
     return (
-        <div onClick={() => onClick(songInfo.name)}>
+        <div onClick={() => onClick(songInfo)}>
             <b>{songInfo.name}</b>
             <br/>
             {songInfo.artists}

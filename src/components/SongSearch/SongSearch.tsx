@@ -23,7 +23,7 @@ const SongSearchStyled = styled.div`
     }
 `
 
-const SongSearch = ({api}: {api: SpotifyApi}) => {
+const SongSearch = ({api, setLyrics}: {api: SpotifyApi, setLyrics: Function}) => {
     const [songName, setSongName] = useState("");
     const [prevSongName, setPrevSongName] = useState("");
     const [showingResults, setShowingResults] = useState(false);
@@ -38,17 +38,18 @@ const SongSearch = ({api}: {api: SpotifyApi}) => {
         }
     };
 
-    const selectSong = async (song: string) => {
-        console.log(song);
+    const selectSong = async (song: SongInfo) => {
         const response = await fetch("/lyrics", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({a: 1, b: 2})
+            body: JSON.stringify({id: song.id})
         })
-        console.log("response:\n")
-        console.log(response.text());
+        if (response.ok) {
+            const jsonValue = await response.json();
+            setLyrics(jsonValue)
+        }
         // Hide dropdown
         setShowingResults(false);
         // Reset results and page
@@ -68,7 +69,8 @@ const SongSearch = ({api}: {api: SpotifyApi}) => {
                 artists: track.artists.map((artist) => {
                     return artist.name;
                 }),
-                image: track.album.images[2] 
+                image: track.album.images[2],
+                id: track.id
             }
         })
         // Show new results, or append if scrolling down
