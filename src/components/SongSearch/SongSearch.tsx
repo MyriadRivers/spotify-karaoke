@@ -44,7 +44,7 @@ const SongSearch = ({api, setLyrics}: {api: SpotifyApi, setLyrics: Function}) =>
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({id: song.id})
+            body: JSON.stringify(song)
         })
         if (response.ok) {
             const jsonValue = await response.json();
@@ -75,6 +75,7 @@ const SongSearch = ({api, setLyrics}: {api: SpotifyApi, setLyrics: Function}) =>
                     return artist.name;
                 }),
                 image: track.album.images[2],
+                duration: track.duration_ms / 1000,
                 id: track.id
             }
         })
