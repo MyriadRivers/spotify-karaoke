@@ -48,7 +48,12 @@ const SongSearch = ({api, setLyrics}: {api: SpotifyApi, setLyrics: Function}) =>
         })
         if (response.ok) {
             const jsonValue = await response.json();
-            setLyrics(jsonValue)
+            let lines: any[] = jsonValue.data.lyrics.lines;
+            let formatted = ""
+            for (let i = 0; i < lines.length; i++) {
+                formatted += lines[i].words + "\n"
+            }
+            setLyrics(formatted)
         }
         // Hide dropdown
         setShowingResults(false);

@@ -31,6 +31,8 @@ const AppContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 20px;
+
+  overflow: auto;
 `
 
 function App() {
@@ -41,7 +43,9 @@ function App() {
       <GlobalStyles />
       <AppContainer>
         <SongSearch api={api} setLyrics = {setLyrics}/>
-        {JSON.stringify(lyrics)}
+        <div style={{whiteSpace: "pre-line"}}>
+          {lyrics}
+        </div>
       </AppContainer>
     </div>
   );
