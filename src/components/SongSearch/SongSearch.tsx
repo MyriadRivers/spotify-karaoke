@@ -49,6 +49,8 @@ const SongSearch = ({api, setLyrics}: {api: SpotifyApi, setLyrics: Function}) =>
         if (response.ok) {
             const jsonValue = await response.json();
             let lines: any[] = jsonValue.lyrics.lyrics.lines;
+            let url = jsonValue.file;
+            console.log(url);
             let formatted = ""
             for (let i = 0; i < lines.length; i++) {
                 formatted += lines[i].words + "\n"
