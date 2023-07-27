@@ -23,7 +23,7 @@ const SongSearchStyled = styled.div`
     }
 `
 
-const SongSearch = ({api, setLyrics}: {api: SpotifyApi, setLyrics: Function}) => {
+const SongSearch = ({api, setLyrics, setAudio}: {api: SpotifyApi, setLyrics: Function, setAudio: Function}) => {
     const [songName, setSongName] = useState("");
     const [prevSongName, setPrevSongName] = useState("");
     const [showingResults, setShowingResults] = useState(false);
@@ -47,15 +47,16 @@ const SongSearch = ({api, setLyrics}: {api: SpotifyApi, setLyrics: Function}) =>
             body: JSON.stringify(song)
         })
         if (response.ok) {
-            const jsonValue = await response.json();
-            let lines: any[] = jsonValue.lyrics.lyrics.lines;
-            let url = jsonValue.file;
-            console.log(url);
-            let formatted = ""
-            for (let i = 0; i < lines.length; i++) {
-                formatted += lines[i].words + "\n"
-            }
-            setLyrics(formatted)
+            const jsonResponse = await response.json();
+            let url = jsonResponse.file;
+            setAudio(url);
+            // let lines: any[] = jsonResponse.lyrics.lyrics.lines;
+            // console.log(url);
+            // let formatted = ""
+            // for (let i = 0; i < lines.length; i++) {
+            //     formatted += lines[i].words + "\n"
+            // }
+            // setLyrics(formatted)
         }
         // Hide dropdown
         setShowingResults(false);

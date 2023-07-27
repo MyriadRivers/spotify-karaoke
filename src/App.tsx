@@ -1,10 +1,12 @@
 import { SpotifyApi } from '@spotify/web-api-ts-sdk';
-import SongSearch from './components/SongSearch/SongSearch';
 import GlobalStyles from './styles/Global';
 import { styled } from 'styled-components';
 
 import testLyrics from './assets/testLyrics.json'
 import { useState } from 'react';
+
+import SongSearch from './components/SongSearch/SongSearch';
+import LyricsDisplay from './components/LyricsDisplay';
 
 const client_id = '269d6b0c0ffe4e32b0d055155b0f8e82';
 const redirect_uri = "http://localhost:3000/"
@@ -31,21 +33,18 @@ const AppContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 20px;
-
-  overflow: auto;
 `
 
 function App() {
   const [lyrics, setLyrics] = useState(testLyrics.text);
+  const [audio, setAudio] = useState("")
 
   return (
     <div className="App">
       <GlobalStyles />
       <AppContainer>
-        <SongSearch api={api} setLyrics = {setLyrics}/>
-        <div style={{whiteSpace: "pre-line"}}>
-          {lyrics}
-        </div>
+        <SongSearch api={api} setLyrics={setLyrics} setAudio={setAudio}/>
+        <LyricsDisplay lyrics={lyrics} audio={audio}></LyricsDisplay>
       </AppContainer>
     </div>
   );
