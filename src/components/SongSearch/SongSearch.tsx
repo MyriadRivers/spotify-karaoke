@@ -49,14 +49,14 @@ const SongSearch = ({api, setLyrics, setAudio}: {api: SpotifyApi, setLyrics: Fun
         if (response.ok) {
             const jsonResponse = await response.json();
             let url = jsonResponse.file;
+            let lines: any[] = jsonResponse.lyrics.lyrics.lines;
+            console.log(url);
+            let formatted = ""
+            for (let i = 0; i < lines.length; i++) {
+                formatted += lines[i].words + "\n"
+            }
             setAudio(url);
-            // let lines: any[] = jsonResponse.lyrics.lyrics.lines;
-            // console.log(url);
-            // let formatted = ""
-            // for (let i = 0; i < lines.length; i++) {
-            //     formatted += lines[i].words + "\n"
-            // }
-            // setLyrics(formatted)
+            setLyrics(formatted)
         }
         // Hide dropdown
         setShowingResults(false);
