@@ -44,7 +44,13 @@ const SongSearch = ({api, setLyrics, setAudio}: {api: SpotifyApi, setLyrics: Fun
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify(song)
+            body: JSON.stringify({
+                name: song.name,
+                artists: song.artists,
+                duration: song.duration,
+                id: song.id,
+                output: "/home/jason/Downloads"
+            })
         })
         if (response.ok) {
             const jsonResponse = await response.json();
