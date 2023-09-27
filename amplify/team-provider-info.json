@@ -1,0 +1,20 @@
+{
+  "staging": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-amplify754fa9c7ad9b4-staging-203028-authRole",
+      "UnauthRoleArn": "arn:aws:iam::195246231218:role/amplify-amplify754fa9c7ad9b4-staging-203028-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::195246231218:role/amplify-amplify754fa9c7ad9b4-staging-203028-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-amplify754fa9c7ad9b4-staging-203028-deployment",
+      "UnauthRoleName": "amplify-amplify754fa9c7ad9b4-staging-203028-unauthRole",
+      "StackName": "amplify-amplify754fa9c7ad9b4-staging-203028",
+      "StackId": "arn:aws:cloudformation:us-east-1:195246231218:stack/amplify-amplify754fa9c7ad9b4-staging-203028/5f412860-572b-11ee-ae53-125832b6045b",
+      "AmplifyAppId": "d3od1ylsk7g2ts"
+    },
+    "categories": {
+      "api": {
+        "spotifykaraoke": {}
+      }
+    }
+  }
+}

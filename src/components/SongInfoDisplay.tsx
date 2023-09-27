@@ -1,4 +1,4 @@
-import SongInfo from "../types";
+import { SongInfo } from "../types";
 
 const SongInfoDisplay = ({songInfo, onClick}: {songInfo: SongInfo, onClick: Function}) => {
     

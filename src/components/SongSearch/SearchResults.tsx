@@ -1,5 +1,5 @@
 import { styled } from "styled-components"
-import SongInfo from "../../types";
+import { SongInfo } from "../../types";
 import SongInfoDisplay from "../SongInfoDisplay";
 import { UIEvent, useEffect, useRef } from "react";
 

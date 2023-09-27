@@ -1,14 +1,21 @@
 import { Image } from "@spotify/web-api-ts-sdk";
 
-type SongInfo = {
+export type SongInfo = {
     name: string,
     artists: string[],
-    image: Image
+    image: Image,
     /**
      * Length of song in seconds.
      */
-    duration: number;
+    duration: number,
     id: string
 }
 
-export default SongInfo;
+export type Song = {
+    name: string,
+    artists: string[],
+    duration: number,
+    id: string,
+    lyrics: {},
+    url: string
+}

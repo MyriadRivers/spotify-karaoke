@@ -1,8 +1,13 @@
 import { SpotifyApi } from "@spotify/web-api-ts-sdk";
-import { ChangeEvent, useState } from "react";
-import SongInfo from "../../types";
+import { ChangeEvent, useEffect, useState } from "react";
+import { SongInfo, Song } from "../../types";
 import { styled } from "styled-components";
 import SearchResults from "./SearchResults";
+import { API, graphqlOperation } from "aws-amplify";
+
+import * as subscriptions from '../../graphql/subscriptions'
+import * as mutations from '../../graphql/mutations'
+import { GraphQLSubscription } from "@aws-amplify/api";
 
 const SongSearchStyled = styled.div`
     background: red;
@@ -25,6 +30,7 @@ const SongSearchStyled = styled.div`
 
 const SongSearch = ({api, setLyrics, setAudio}: {api: SpotifyApi, setLyrics: Function, setAudio: Function}) => {
     const [songName, setSongName] = useState("");
+    const [selectedSong, setSelectedSong] = useState<SongInfo>();
     const [prevSongName, setPrevSongName] = useState("");
     const [showingResults, setShowingResults] = useState(false);
     const [page, setPage] = useState(0);
@@ -39,31 +45,43 @@ const SongSearch = ({api, setLyrics, setAudio}: {api: SpotifyApi, setLyrics: Fun
     };
 
     const selectSong = async (song: SongInfo) => {
-        const response = await fetch("/lyrics", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                name: song.name,
-                artists: song.artists,
-                duration: song.duration,
-                id: song.id,
-                output: "/home/jason/Downloads"
+        setSelectedSong(song);
+
+        await API.graphql(
+            graphqlOperation(mutations.requestKaraoke, {
+                name: song.name, 
+                artists: song.artists, 
+                duration: song.duration, 
+                id: song.id
             })
-        })
-        if (response.ok) {
-            const jsonResponse = await response.json();
-            let url = jsonResponse.file;
-            let lines: any[] = jsonResponse.lyrics.lyrics.lines;
-            console.log(url);
-            let formatted = ""
-            for (let i = 0; i < lines.length; i++) {
-                formatted += lines[i].words + "\n"
-            }
-            setAudio(url);
-            setLyrics(formatted)
-        }
+        );
+
+        // const response = await fetch("/lyrics", {
+        //     method: "POST",
+        //     headers: {
+        //         "Content-Type": "application/json",
+        //     },
+        //     body: JSON.stringify({
+        //         name: song.name,
+        //         artists: song.artists,
+        //         duration: song.duration,
+        //         id: song.id,
+        //         output: "/home/jason/Downloads"
+        //     })
+        // })
+        // if (response.ok) {
+        //     const jsonResponse = await response.json();
+        //     let url = jsonResponse.file;
+        //     let lines: any[] = jsonResponse.lyrics.lyrics.lines;
+        //     console.log(url);
+        //     let formatted = ""
+        //     for (let i = 0; i < lines.length; i++) {
+        //         formatted += lines[i].words + "\n"
+        //     }
+        //     setAudio(url);
+        //     setLyrics(formatted)
+        // }
+        
         // Hide dropdown
         setShowingResults(false);
         // Reset results and page
@@ -94,6 +112,18 @@ const SongSearch = ({api, setLyrics, setAudio}: {api: SpotifyApi, setLyrics: Fun
         setPrevSongName(songName);
         setShowingResults(true);
     }
+    
+    useEffect(() => {
+        API.graphql<GraphQLSubscription<Song>>(
+            graphqlOperation(subscriptions.addedKaraoke, {name: 69, artists: 69, duration: 69, id: 69})
+        ).subscribe({
+            next: ({provider, value}) => {
+                // @ts-ignore
+                if (value.data !== undefined) console.log("Received: " + JSON.stringify(value.data.addedKaraoke))
+            },
+            error: (error) => console.warn(error)
+        });
+    }, [])
 
     return (
         <SongSearchStyled>
