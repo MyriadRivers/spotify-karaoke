@@ -9,6 +9,8 @@ import * as subscriptions from '../../graphql/subscriptions'
 import * as mutations from '../../graphql/mutations'
 import { GraphQLSubscription } from "@aws-amplify/api";
 
+var lyrics = require("../../assets/call-me-maybe-karaoke.json")
+
 const SongSearchStyled = styled.div`
     background: red;
     position: relative;
@@ -47,46 +49,27 @@ const SongSearch = ({api, setLyrics, setAudio}: {api: SpotifyApi, setLyrics: Fun
     const selectSong = async (song: SongInfo) => {
         setSelectedSong(song);
 
-        await API.graphql(
-            graphqlOperation(mutations.requestKaraoke, {
-                name: song.name, 
-                artists: song.artists, 
-                duration: song.duration, 
-                id: song.id
-            })
-        );
+        // CODE FOR COMMUNICATING WITH APPSYNC API, TOOK THIS DOWN FOR NOW TO MOCK UP
 
-        // const response = await fetch("/lyrics", {
-        //     method: "POST",
-        //     headers: {
-        //         "Content-Type": "application/json",
-        //     },
-        //     body: JSON.stringify({
-        //         name: song.name,
-        //         artists: song.artists,
-        //         duration: song.duration,
-        //         id: song.id,
-        //         output: "/home/jason/Downloads"
+        // await API.graphql(
+        //     graphqlOperation(mutations.requestKaraoke, {
+        //         name: song.name, 
+        //         artists: song.artists, 
+        //         duration: song.duration, 
+        //         id: song.id
         //     })
-        // })
-        // if (response.ok) {
-        //     const jsonResponse = await response.json();
-        //     let url = jsonResponse.file;
-        //     let lines: any[] = jsonResponse.lyrics.lyrics.lines;
-        //     console.log(url);
-        //     let formatted = ""
-        //     for (let i = 0; i < lines.length; i++) {
-        //         formatted += lines[i].words + "\n"
-        //     }
-        //     setAudio(url);
-        //     setLyrics(formatted)
-        // }
+        // );
         
         // Hide dropdown
         setShowingResults(false);
         // Reset results and page
         setResults([]);
         setPage(0);
+
+        // Place holder mock up for backend connection
+        // TODO: take out the file from public folder when deploying
+        setAudio("call-me-maybe-accompaniment.wav")
+        setLyrics(lyrics)
     }
 
     const getSongs = async () => {

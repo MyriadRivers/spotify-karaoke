@@ -19,3 +19,9 @@ export type Song = {
     lyrics: {},
     url: string
 }
+
+export type Word = {
+    word: string,
+    startTime: number,
+    endTime: number
+}

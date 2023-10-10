@@ -7,6 +7,7 @@ import { useState } from 'react';
 
 import SongSearch from './components/SongSearch/SongSearch';
 import LyricsDisplay from './components/LyricsDisplay';
+import { Word } from './types';
 
 const client_id = '269d6b0c0ffe4e32b0d055155b0f8e82';
 const redirect_uri = "http://localhost:3000/"
@@ -36,7 +37,7 @@ const AppContainer = styled.div`
 `
 
 function App() {
-  const [lyrics, setLyrics] = useState(testLyrics.text);
+  const [lyrics, setLyrics] = useState<Array<Array<Word>>>([]);
   const [audio, setAudio] = useState("")
 
   return (
