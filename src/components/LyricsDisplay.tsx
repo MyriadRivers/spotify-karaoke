@@ -78,6 +78,9 @@ const LyricsDisplay = ({lyrics, audio}: {lyrics: Array<Array<Word>>, audio: stri
 
                 // Bug with current incremental approach: if you're far deep into the auto scroll zone, it will take many incremental jumps
                 // to push the active line to outside the zone. We should calculate the scroll value to do this in one jump
+
+                // Alternatively, just refactor this to be in the Line.tsx logic, check when a new line starts and when the line is in the active zone
+                // Center it automatically
                 lyricsDisplayRef.current.scrollTop = lyricsDisplayRef.current.scrollTop + 41;
             }
         }
