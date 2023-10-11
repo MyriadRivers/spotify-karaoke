@@ -33,6 +33,9 @@ const LyricsDisplay = ({lyrics, audio}: {lyrics: Array<Array<Word>>, audio: stri
     const audioRef = useRef<HTMLAudioElement>(null);
     const lyricsDisplayRef = useRef<HTMLDivElement>(null);
 
+    /**Size in percent of middle section of viewport where auto scroll is active */
+    const AUTO_SCROLL_ZONE_SIZE = 1/3;
+
     useEffect(() => {
         if (audioRef.current != null) {
             audioRef.current.addEventListener("timeupdate", updateTime)
@@ -44,6 +47,9 @@ const LyricsDisplay = ({lyrics, audio}: {lyrics: Array<Array<Word>>, audio: stri
             // let lyrics_object = JSON.parse(lyrics);
             // setWords(lyrics_object);
             setWords(lyrics);
+            if (lyricsDisplayRef.current) {
+                lyricsDisplayRef.current.scrollTop = 0;
+            }
         }
     }, [lyrics])
 
@@ -62,26 +68,20 @@ const LyricsDisplay = ({lyrics, audio}: {lyrics: Array<Array<Word>>, audio: stri
     }
 
     const scrollLyrics = (y: number) => {
-        let activeScrollZoneTop = (window.innerHeight / 2) -  (window.innerHeight / 8);
-        let activeScrollZoneBottom = (window.innerHeight / 2) +  (window.innerHeight / 8);
+        let autoScrollZoneTop = (window.innerHeight / 2) -  (window.innerHeight * (AUTO_SCROLL_ZONE_SIZE / 2));
+        let autoScrollZoneBottom = (window.innerHeight / 2) +  (window.innerHeight * (AUTO_SCROLL_ZONE_SIZE / 2));
 
         if (lyricsDisplayRef.current) {
-            // console.log(lyricsDisplayRef.current.scrollTop)
-            console.log(y)
-            let absoluteLinePosition = y - lyricsDisplayRef.current.scrollTop;
+            let lyricsRect = lyricsDisplayRef.current.getBoundingClientRect();
+            let relY = y - lyricsRect.y;
+            // lyric container top to top of visible content + top of visible content to line = distance from container top to line
+            // - half of container's height because scrollTop sets the top of visible content, we want our content to be in the middle of the container not top 
+            let scrollHeight = lyricsDisplayRef.current.scrollTop + relY - (lyricsRect.height / 2);
 
-            if (absoluteLinePosition > activeScrollZoneTop && absoluteLinePosition < activeScrollZoneBottom) {
-                // Need to calculate the value to add such that it pushes the current line out of the active scroll, 
-                // but the next line will be in the active scroll
+            console.log(relY);
 
-                // Difference between one y and the next, maybe memoize this?
-
-                // Bug with current incremental approach: if you're far deep into the auto scroll zone, it will take many incremental jumps
-                // to push the active line to outside the zone. We should calculate the scroll value to do this in one jump
-
-                // Alternatively, just refactor this to be in the Line.tsx logic, check when a new line starts and when the line is in the active zone
-                // Center it automatically
-                lyricsDisplayRef.current.scrollTop = lyricsDisplayRef.current.scrollTop + 41;
+            if (relY > autoScrollZoneTop && relY < autoScrollZoneBottom) {
+                lyricsDisplayRef.current.scrollTop = scrollHeight;
             }
         }
     }
@@ -90,7 +90,7 @@ const LyricsDisplay = ({lyrics, audio}: {lyrics: Array<Array<Word>>, audio: stri
         <LyricsDisplayStyled>
             <div className="lyrics" ref={lyricsDisplayRef}>
                 {words.map((line, lineIndex) => (
-                    <Line key={lineIndex} words={line} setTime={setTime} currTime={currTime} scrollWindow={scrollLyrics}/>
+                    <Line key={lineIndex} words={line} startTime={line[0].startTime / 1000} setTime={setTime} currTime={currTime} scrollWindow={scrollLyrics}/>
                 ))}
             </div>
             <audio controls src={audio} ref={audioRef}></audio>

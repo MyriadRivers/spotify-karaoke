@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { Word } from "../types";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
 const StyledLyric = styled.div<{ word: Word, currTime: number | undefined, percent: number}>`
     /* background-color: #86cecb; */
@@ -37,23 +37,11 @@ const StyledLyric = styled.div<{ word: Word, currTime: number | undefined, perce
 
 const Lyric = ({word, setTime, currTime, scrollWindow}: {word: Word, setTime: (ms: number) => void, currTime: number | undefined, scrollWindow: (y: number) => void}) => {
     const [percent, setPercent] = useState<number>(0);
-    const [scrolled, setScrolled] = useState<boolean>(false);
-
-    const lyricRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         if (currTime) {
             let perc = getPercent(currTime);
             setPercent(perc)
-            if (percent > 0 && percent !== 100 && !scrolled) {
-                setScrolled(true);
-                if (lyricRef.current) {
-                    let lineHeight = lyricRef.current.offsetTop;
-                    scrollWindow(lineHeight)
-                }
-            } else if (percent == 0) {
-                setScrolled(false);
-            }
         }
     }, [currTime])
 
@@ -69,7 +57,7 @@ const Lyric = ({word, setTime, currTime, scrollWindow}: {word: Word, setTime: (m
 
     return (
         <StyledLyric word={word} currTime={currTime} percent={percent} onClick={() => setTime(word.startTime)}>
-            <div className="back" ref={lyricRef}>{word.word}</div>
+            <div className="back" >{word.word}</div>
             <div className="front">{word.word}</div>
         </StyledLyric>
     )
