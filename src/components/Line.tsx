@@ -3,9 +3,10 @@ import { Word } from "../types";
 import Lyric from "./Lyric";
 
 const StyledLine = styled.div`
-    background-color: pink;
+    /* background-color: pink; */
     display: flex;
-    gap: 5pt;
+    flex-flow: row wrap;
+    gap: 0 4pt;
 `
 
 const Line = ({words, setTime, currTime, scrollWindow}: {words: Array<Word>, setTime: (ms: number) => void, currTime: number | undefined, scrollWindow: (y: number) => void}) => {

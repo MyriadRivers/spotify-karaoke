@@ -3,25 +3,35 @@ import { Word } from "../types";
 import { useEffect, useRef, useState } from "react";
 
 const StyledLyric = styled.div<{ word: Word, currTime: number | undefined, percent: number}>`
-    background-color: #86cecb;
+    /* background-color: #86cecb; */
     display: grid;
-
+    
     &:hover {
         cursor: pointer;
     }
     
     .back {
-        color: #d12f4e;
+        color: lightgrey;
         clip-path: inset(0 ${props => 100 - props.percent}% 0 0);
         /* transition: clip-path 0.1s ease; */
         grid-row: 1;
         grid-column-start: 1;
+        
+        &:hover {
+            color: white;
+        }
     }
 
     .front {
-        color: white;
+        color: black;
+        clip-path: inset(0 0 0 ${props => props.percent}%);
+        /* transition: clip-path 0.1s ease; */
         grid-row: 1;
         grid-column-start: 1;
+
+        &:hover {
+            color: white;
+        }
     }
 `
 

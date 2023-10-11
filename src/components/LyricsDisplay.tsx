@@ -4,16 +4,25 @@ import { Word } from "../types";
 import Line from "./Line";
 
 const LyricsDisplayStyled = styled.div`
-    background: salmon;
+    /* background: salmon; */
     height: 100%;
     overflow: auto;
     display: flex;
     flex-direction: column;
 
     .lyrics {
-        background: lime;
+        /* background: lime; */
         white-space: pre-line;
         overflow: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 12pt;
+
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 16pt;
+        font-weight: bold;
+
+        scroll-behavior: smooth;
     }
 `
 
@@ -53,8 +62,24 @@ const LyricsDisplay = ({lyrics, audio}: {lyrics: Array<Array<Word>>, audio: stri
     }
 
     const scrollLyrics = (y: number) => {
+        let activeScrollZoneTop = (window.innerHeight / 2) -  (window.innerHeight / 8);
+        let activeScrollZoneBottom = (window.innerHeight / 2) +  (window.innerHeight / 8);
+
         if (lyricsDisplayRef.current) {
-            lyricsDisplayRef.current.scrollTop = y - lyricsDisplayRef.current.offsetTop;
+            // console.log(lyricsDisplayRef.current.scrollTop)
+            console.log(y)
+            let absoluteLinePosition = y - lyricsDisplayRef.current.scrollTop;
+
+            if (absoluteLinePosition > activeScrollZoneTop && absoluteLinePosition < activeScrollZoneBottom) {
+                // Need to calculate the value to add such that it pushes the current line out of the active scroll, 
+                // but the next line will be in the active scroll
+
+                // Difference between one y and the next, maybe memoize this?
+
+                // Bug with current incremental approach: if you're far deep into the auto scroll zone, it will take many incremental jumps
+                // to push the active line to outside the zone. We should calculate the scroll value to do this in one jump
+                lyricsDisplayRef.current.scrollTop = lyricsDisplayRef.current.scrollTop + 41;
+            }
         }
     }
 

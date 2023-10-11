@@ -23,9 +23,10 @@ const auth = async () => {
 auth();
 
 const AppContainer = styled.div`
-  background: silver;
+  /* background: purple; */
   height: 100%;
-  width: 70%;
+  // Maybe have width scale with window dimensions in realtime rather than a binary option; more reactive change to window resizing 
+  width: ${window.innerWidth < window.innerHeight ? "100vw" : "75vw"};
 
   margin: auto;
   box-sizing: border-box;
