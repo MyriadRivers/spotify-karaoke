@@ -66,7 +66,7 @@ const StyledAudio = styled.div`
     }
 `
 
-const StyledRange = styled.input<{$percent: number, $hover: boolean}>`
+const StyledRange = styled.input<{$hover: boolean}>`
     -webkit-appearance: none;
     appearance: none;
     height: 8px;
@@ -74,22 +74,24 @@ const StyledRange = styled.input<{$percent: number, $hover: boolean}>`
     background: #222222;
 
     &::-webkit-slider-runnable-track {
-        background: linear-gradient(to right, ${props => props.$hover ? "#d12f4e" : "lightgrey"} 0%, ${props => props.$hover ? "#d12f4e" : "lightgrey"} ${props => props.$percent * 100}%, #222222 ${props => props.$percent * 100}%, #222222 100%);
         height: 100%;
         border: none;
         border-radius: 8px;
+        clip-path: inset(0px 0px 0px 0px round 16px)
     }
 
     &::-webkit-slider-thumb {
         -webkit-appearance: none;
         appearance: none;
-        background-color: white;
+        background-color: ${props => props.$hover ? "white" : "lightgrey"};
         border: none;
-        border-radius: 16px;
-        height: 16px;
-        width: 16px;
-        opacity: ${props => props.$hover ? 1 : 0};
-        margin: -4px 0 0 0px;
+        border-radius: ${props => props.$hover ? "0px" : "16px"};
+        height: ${props => props.$hover ? "16px" : "8px"};
+        width: ${props => props.$hover ? "16px" : "8px"};
+        margin: 0px 0px 0px 0px;
+
+        box-shadow: 0px 0px 0px 10000px ${props => props.$hover ? "#d12f4e" : "lightgrey"};
+        clip-path: inset(0px 0px 0px -100vw round ${props => props.$hover ? "0px" : "16px"});
     }
 
     &::-moz-range-thumb {
@@ -98,17 +100,6 @@ const StyledRange = styled.input<{$percent: number, $hover: boolean}>`
         height: 16px;
         width: 16px;
         opacity: ${props => props.$hover ? 1 : 0};
-    }
-
-    &::-webkit-slider-thumb:hover, &::-webkit-slider-thumb:active  {
-        -webkit-appearance: none;
-        appearance: none;
-        opacity: 1;
-        width: 16px;
-        height: 16px;
-        background-color: white;
-        border-radius: 16px;
-        margin: -4px 0 0 0px;
     }
 
    &::-moz-range-thumb:hover, &::-moz-range-thumb:active  {
@@ -120,7 +111,7 @@ const StyledRange = styled.input<{$percent: number, $hover: boolean}>`
     }
 
     &::-moz-range-progress {
-        background-color: ${props => props.$hover ? "#d12g4e" : "lightgrey"};
+        background-color: ${props => props.$hover ? "#d12f4e" : "lightgrey"};
         border: none;
         height: 100%;
         border-radius: 8px;
@@ -161,12 +152,19 @@ const Audio = forwardRef<HTMLAudioElement, Props>(({src}, ref) => {
         }
     }, [localRef.current?.duration])
 
-    // Update curent time shown to match audio's time
     useEffect(() => {
+        if (localRef.current != null) {
+            localRef.current.addEventListener("timeupdate", updateTime)
+        }
+    }, [])
+
+    // Update curent time shown to match audio's time
+    const updateTime = () => {
         if (localRef.current) {
             setCurrTime(localRef.current.currentTime);
+            // requestAnimationFrame(updateTime);
         }
-    }, [localRef.current?.currentTime])
+    }
 
     const play = () => {
         if (localRef && localRef.current) {
@@ -246,7 +244,6 @@ const Audio = forwardRef<HTMLAudioElement, Props>(({src}, ref) => {
                     ref={seekRef} className={"seeker"} 
                     onMouseEnter={() => setSeekHover(true)}
                     onMouseLeave={() => setSeekHover(false)}
-                    $percent={currTime / dur}
                     $hover={seekHover}
                 />
                 <div className="time">{isNaN(dur) ? "0:00" : timestamp(dur)}</div>
@@ -262,7 +259,6 @@ const Audio = forwardRef<HTMLAudioElement, Props>(({src}, ref) => {
                     className={"volume"}
                     onMouseEnter={() => setVolHover(true)}
                     onMouseLeave={() => setVolHover(false)}
-                    $percent={localRef.current ? localRef.current.volume : 1}
                     $hover={volHover}
                 />
             </div>

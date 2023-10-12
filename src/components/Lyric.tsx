@@ -13,7 +13,7 @@ const StyledLyric = styled.div<{ word: Word, currTime: number | undefined, perce
     .back {
         color: lightgrey;
         clip-path: inset(0 ${props => 100 - props.percent}% 0 0);
-        /* transition: clip-path 0.1s ease; */
+        transition: clip-path 0.1s ease;
         grid-row: 1;
         grid-column-start: 1;
         
@@ -25,7 +25,7 @@ const StyledLyric = styled.div<{ word: Word, currTime: number | undefined, perce
     .front {
         color: black;
         clip-path: inset(0 0 0 ${props => props.percent}%);
-        /* transition: clip-path 0.1s ease; */
+        transition: clip-path 0.1s ease;
         grid-row: 1;
         grid-column-start: 1;
 
