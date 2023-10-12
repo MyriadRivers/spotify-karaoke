@@ -6,10 +6,11 @@ const GlobalStyles = createGlobalStyle`
         height: 100%;
         padding: 0px;
         margin: 0px;
+        font-family: Arial, Helvetica, sans-serif;
     }
 
     .App {
-        background: #d12f4e;
+        background: #111111;
         height: 100vh;
     }
 `

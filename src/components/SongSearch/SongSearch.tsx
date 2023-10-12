@@ -8,25 +8,48 @@ import { API, graphqlOperation } from "aws-amplify";
 import * as subscriptions from '../../graphql/subscriptions'
 import * as mutations from '../../graphql/mutations'
 import { GraphQLSubscription } from "@aws-amplify/api";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { icon } from "@fortawesome/fontawesome-svg-core";
+import { faAddressCard, faAngry } from "@fortawesome/free-regular-svg-icons";
+import { faSearch } from "@fortawesome/free-solid-svg-icons";
 
 var lyrics = require("../../assets/call-me-maybe-karaoke.json")
 
 const SongSearchStyled = styled.div`
     background: red;
     position: relative;
-    
-    .search-bar {
+    /* display: flex; */
+
+    .searchBar {
         display: flex;
         justify-content: space-between;
     }
 
     input {
-        color: darkcyan;
+        color: white;
+        background: #222222;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 12.5pt;
+
+        padding: 0pt 0pt 0pt 20pt;
+        border: none;
+        /* border-radius: 20pt 0pt 0pt 20pt; */
+
         width: 100%;
     }
 
     button {
-        background: purple;
+        background: #222222;
+        color: lightgrey;
+        border: none;
+        width: 40pt;
+        aspect-ratio: 1 / 1;
+        /* border-radius: 0pt 20pt 20pt 0pt; */
+
+        &:hover {
+            color: white;
+            cursor: pointer;
+        }
     }
 `
 
@@ -110,9 +133,9 @@ const SongSearch = ({api, setLyrics, setAudio}: {api: SpotifyApi, setLyrics: Fun
 
     return (
         <SongSearchStyled>
-            <div className="search-bar">
+            <div className="searchBar">
                 <input onChange={songInputChange} placeholder={"Song Name"}/>
-                <button onClick={getSongs}>Search</button>
+                <button onClick={getSongs}><FontAwesomeIcon icon={faSearch} size={"lg"} /></button>
             </div>
             { showingResults && <SearchResults songs={results} onSelect={selectSong} onMaxScroll={getSongs} resetScroll={resetScroll}/> }
         </SongSearchStyled>

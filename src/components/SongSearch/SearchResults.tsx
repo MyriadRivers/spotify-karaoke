@@ -5,10 +5,11 @@ import { UIEvent, useEffect, useRef } from "react";
 
 const SearchResultsStyled = styled.div`
     background: blue;
-    height: 300px;
+    height: 80vh;
     width: 100%;
     overflow: scroll;
     position: absolute;
+    z-index: 1000;
 `
 
 const SearchResults = ({songs, onSelect, onMaxScroll, resetScroll} : {songs: SongInfo[], onSelect: Function, onMaxScroll: Function, resetScroll: boolean}) => {

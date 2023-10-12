@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { styled } from "styled-components";
 import { Word } from "../types";
 import Line from "./Line";
+import Audio from "./Audio";
 
 const LyricsDisplayStyled = styled.div`
     /* background: salmon; */
@@ -9,20 +10,32 @@ const LyricsDisplayStyled = styled.div`
     overflow: auto;
     display: flex;
     flex-direction: column;
+    gap: 20px;
 
     .lyrics {
-        /* background: lime; */
+        background: #d12f4e;
         white-space: pre-line;
         overflow: auto;
         display: flex;
         flex-direction: column;
         gap: 12pt;
+        padding: 12pt;
 
-        font-family: Arial, Helvetica, sans-serif;
+        /* font-family: Arial, Helvetica, sans-serif; */
         font-size: 16pt;
         font-weight: bold;
 
         scroll-behavior: smooth;
+        scrollbar-color: #FFFFFF40 #FFFFFF00;
+        &::-webkit-scrollbar {
+            width: 10px;
+        }
+        &::-webkit-scrollbar-track {
+            /* background: orange; */
+        }
+        &::-webkit-scrollbar-thumb {
+            background: #FFFFFF40;
+        }
     }
 `
 
@@ -78,8 +91,6 @@ const LyricsDisplay = ({lyrics, audio}: {lyrics: Array<Array<Word>>, audio: stri
             // - half of container's height because scrollTop sets the top of visible content, we want our content to be in the middle of the container not top 
             let scrollHeight = lyricsDisplayRef.current.scrollTop + relY - (lyricsRect.height / 2);
 
-            console.log(relY);
-
             if (relY > autoScrollZoneTop && relY < autoScrollZoneBottom) {
                 lyricsDisplayRef.current.scrollTop = scrollHeight;
             }
@@ -92,8 +103,9 @@ const LyricsDisplay = ({lyrics, audio}: {lyrics: Array<Array<Word>>, audio: stri
                 {words.map((line, lineIndex) => (
                     <Line key={lineIndex} words={line} startTime={line[0].startTime / 1000} setTime={setTime} currTime={currTime} scrollWindow={scrollLyrics}/>
                 ))}
+                {words.length == 0 && <div>Search for a song to see lyrics.</div>}
             </div>
-            <audio controls src={audio} ref={audioRef}></audio>
+            <Audio src={audio} ref={audioRef}/>
         </LyricsDisplayStyled>
     )
 }
