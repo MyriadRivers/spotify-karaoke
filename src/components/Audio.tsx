@@ -136,38 +136,38 @@ const Audio = forwardRef<HTMLAudioElement, Props>(({src}, ref) => {
     const [seekHover, setSeekHover] = useState<boolean>(false);
     const [volHover, setVolHover] = useState<boolean>(false);
 
-    // Update position slider to match audio time as it plays
-    useEffect(() => {
-        if (localRef.current && seekRef.current) {
-            if (localRef.current.currentTime !== currTime) {
-                seekRef.current.value = "" + localRef.current.currentTime;
-            }
-        }
-    }, [localRef.current?.currentTime])
-
-    // Update duration shown to match audio's duration
-    useEffect(() => {
-        if (localRef.current) {
-            setDur(localRef.current.duration);
-        }
-    }, [localRef.current?.duration])
-
     useEffect(() => {
         if (localRef.current != null) {
             localRef.current.addEventListener("timeupdate", updateTime)
+            localRef.current.addEventListener("loadeddata", () => {
+                if (localRef.current) {
+                    setDur(localRef.current.duration)
+                }
+            })
         }
     }, [])
+
+    useEffect(() => {
+        if (localRef.current) {
+            setDur(localRef.current.duration)
+        }
+    }, [localRef.current?.duration])
 
     // Update curent time shown to match audio's time
     const updateTime = () => {
         if (localRef.current) {
             setCurrTime(localRef.current.currentTime);
             // requestAnimationFrame(updateTime);
+            if (seekRef.current) {
+                if (localRef.current.currentTime !== currTime) {
+                    seekRef.current.value = "" + localRef.current.currentTime;
+                }
+            }
         }
     }
 
     const play = () => {
-        if (localRef && localRef.current) {
+        if (localRef && localRef.current && !isNaN(localRef.current.duration)) {
             if (paused) {
                 localRef.current.play();
                 setPaused(false);
@@ -226,6 +226,9 @@ const Audio = forwardRef<HTMLAudioElement, Props>(({src}, ref) => {
     }
 
     const timestamp = (seconds: number): string => {
+        if (isNaN(seconds)) {
+            return "";
+        }
         let min = Math.floor(seconds / 60);
         let sec = Math.round(seconds % 60);
         let time = sec < 10 ? min + ":0" + sec : min + ":" + sec;
@@ -240,13 +243,13 @@ const Audio = forwardRef<HTMLAudioElement, Props>(({src}, ref) => {
                 <StyledRange 
                     type="range" 
                     onChange={updateAudioTime} 
-                    max={dur} step={0.001} 
+                    max={localRef.current ? dur : 0} step={0.001} 
                     ref={seekRef} className={"seeker"} 
                     onMouseEnter={() => setSeekHover(true)}
                     onMouseLeave={() => setSeekHover(false)}
                     $hover={seekHover}
                 />
-                <div className="time">{isNaN(dur) ? "0:00" : timestamp(dur)}</div>
+                <div className="time">{localRef.current ? timestamp(dur) : ""}</div>
             </div>
             <div className={"volumeControls"}>
                 <button onClick={mute} className={"mute"}>{muted ? <FontAwesomeIcon icon={faVolumeMute} size="2x"/> : <FontAwesomeIcon icon={faVolumeUp} size="2x"/>}</button>

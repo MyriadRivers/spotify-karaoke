@@ -4,7 +4,7 @@ import SongInfoDisplay from "../SongInfoDisplay";
 import { UIEvent, useEffect, useRef } from "react";
 
 const SearchResultsStyled = styled.div`
-    background: blue;
+    background: #222222;
     height: 80vh;
     width: 100%;
     overflow: scroll;

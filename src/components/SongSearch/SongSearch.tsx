@@ -1,5 +1,5 @@
 import { SpotifyApi } from "@spotify/web-api-ts-sdk";
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { SongInfo, Song } from "../../types";
 import { styled } from "styled-components";
 import SearchResults from "./SearchResults";
@@ -62,6 +62,11 @@ const SongSearch = ({api, setLyrics, setAudio}: {api: SpotifyApi, setLyrics: Fun
     const [results, setResults]= useState(Array<SongInfo>);
     const [resetScroll, setResetScroll] = useState(false);
 
+    const searchBarRef = useRef<HTMLInputElement>(null);
+    const searchButtonRef = useRef<HTMLButtonElement>(null);
+    
+    const showing = useRef<boolean | undefined>(false);
+
     const songInputChange = (event: ChangeEvent) => {
         if (event.target) {
             let target = event.target as HTMLInputElement;
@@ -83,11 +88,7 @@ const SongSearch = ({api, setLyrics, setAudio}: {api: SpotifyApi, setLyrics: Fun
         //     })
         // );
         
-        // Hide dropdown
-        setShowingResults(false);
-        // Reset results and page
-        setResults([]);
-        setPage(0);
+        hideResults();
 
         // Place holder mock up for backend connection
         // TODO: take out the file from public folder when deploying
@@ -95,31 +96,65 @@ const SongSearch = ({api, setLyrics, setAudio}: {api: SpotifyApi, setLyrics: Fun
         setLyrics(lyrics)
     }
 
-    const getSongs = async () => {
-        setResetScroll(prevSongName !== songName);
+    const hideResults = () => {
+        // Hide dropdown
+        setShowingResults(false);
+        // Reset results and page
+        setResults([]);
+        setPage(0);
+    }
 
-        let newPage = prevSongName !== songName ? 0 : page + 1;
-        let rawResults = await api.search(songName, ["track"], undefined, 10, newPage * 10);
-        let tracks = rawResults.tracks.items;
-        let songInfoResults: Array<SongInfo> = tracks.map((track) => {
-            return {
-                name: track.name,
-                artists: track.artists.map((artist) => {
-                    return artist.name;
-                }),
-                image: track.album.images[2],
-                duration: track.duration_ms / 1000,
-                id: track.id
+    const getSongs = async () => {
+        if (songName.length > 0) {
+            setResetScroll(prevSongName !== songName);
+
+            let newPage = prevSongName !== songName ? 0 : page + 1;
+            let rawResults = await api.search(songName, ["track"], undefined, 10, newPage * 10);
+            let tracks = rawResults.tracks.items;
+            let songInfoResults: Array<SongInfo> = tracks.map((track) => {
+                return {
+                    name: track.name,
+                    artists: track.artists.map((artist) => {
+                        return artist.name;
+                    }),
+                    image: track.album.images[2],
+                    duration: track.duration_ms / 1000,
+                    id: track.id
+                }
+            })
+            // Show new results, or append if scrolling down
+            setPage(newPage);
+            setResults(prevSongName !== songName ? songInfoResults : [...results, ...songInfoResults]);
+            setPrevSongName(songName);
+            setShowingResults(true);
+        }
+    }
+
+    const searchHotKey = (e: KeyboardEvent) => {
+        if (e.key === "Enter") {
+            if (searchButtonRef.current && !showing.current) {
+                searchButtonRef.current.click();
+                showing.current = true;
             }
-        })
-        // Show new results, or append if scrolling down
-        setPage(newPage);
-        setResults(prevSongName !== songName ? songInfoResults : [...results, ...songInfoResults]);
-        setPrevSongName(songName);
-        setShowingResults(true);
+        }
+    }
+
+    const escapeHotKey = (e: KeyboardEvent) => {
+        if (e.key === "Escape") {
+            if (searchButtonRef.current && showing.current) {
+                setShowingResults(false);
+                showing.current = false;
+            }
+        }
     }
     
     useEffect(() => {
+        // Hitting enter when the text field is selected is the same as pressing the search button
+        if (searchBarRef.current) {
+            searchBarRef.current.addEventListener("keypress", searchHotKey);
+        }
+        window.addEventListener("keydown", escapeHotKey);
+
         API.graphql<GraphQLSubscription<Song>>(
             graphqlOperation(subscriptions.addedKaraoke, {name: 69, artists: 69, duration: 69, id: 69})
         ).subscribe({
@@ -134,8 +169,8 @@ const SongSearch = ({api, setLyrics, setAudio}: {api: SpotifyApi, setLyrics: Fun
     return (
         <SongSearchStyled>
             <div className="searchBar">
-                <input onChange={songInputChange} placeholder={"Song Name"}/>
-                <button onClick={getSongs}><FontAwesomeIcon icon={faSearch} size={"lg"} /></button>
+                <input onChange={songInputChange} placeholder={"What do you want to sing along to?"} ref={searchBarRef}/>
+                <button onClick={getSongs} ref={searchButtonRef}><FontAwesomeIcon icon={faSearch} size={"lg"} /></button>
             </div>
             { showingResults && <SearchResults songs={results} onSelect={selectSong} onMaxScroll={getSongs} resetScroll={resetScroll}/> }
         </SongSearchStyled>

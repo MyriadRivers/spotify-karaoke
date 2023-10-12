@@ -49,7 +49,21 @@ const LyricsDisplay = ({lyrics, audio}: {lyrics: Array<Array<Word>>, audio: stri
     /**Size in percent of middle section of viewport where auto scroll is active */
     const AUTO_SCROLL_ZONE_SIZE = 1/3;
 
+    const playHotKey = (e: KeyboardEvent) => {
+        if (e.key === " " && !(e.target instanceof HTMLInputElement)) {
+            e.preventDefault();
+            if (audioRef.current) {
+                if (audioRef.current.paused) {
+                    audioRef.current.play();
+                } else {
+                    audioRef.current.pause();
+                }
+            } 
+        }
+    }
+
     useEffect(() => {
+        window.addEventListener("keydown", playHotKey);
         if (audioRef.current != null) {
             audioRef.current.addEventListener("timeupdate", updateTime)
         }
