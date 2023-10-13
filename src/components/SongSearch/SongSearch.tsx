@@ -13,6 +13,7 @@ import { icon } from "@fortawesome/fontawesome-svg-core";
 import { faAddressCard, faAngry } from "@fortawesome/free-regular-svg-icons";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 
+const audio_file = "call-me-maybe-accompaniment.wav";
 var lyrics = require("../../assets/call-me-maybe-karaoke.json")
 
 const SongSearchStyled = styled.div`
