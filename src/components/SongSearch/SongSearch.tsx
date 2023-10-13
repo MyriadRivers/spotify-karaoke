@@ -100,9 +100,13 @@ const SongSearch = ({api, setLyrics, setAudio}: {api: SpotifyApi, setLyrics: Fun
     const hideResults = () => {
         // Hide dropdown
         setShowingResults(false);
+        showing.current = false;
         // Reset results and page
         setResults([]);
         setPage(0);
+        if (searchBarRef.current) {
+            searchBarRef.current.value = ""
+        }
     }
 
     const getSongs = async () => {
@@ -143,8 +147,7 @@ const SongSearch = ({api, setLyrics, setAudio}: {api: SpotifyApi, setLyrics: Fun
     const escapeHotKey = (e: KeyboardEvent) => {
         if (e.key === "Escape") {
             if (searchButtonRef.current && showing.current) {
-                setShowingResults(false);
-                showing.current = false;
+                hideResults();
             }
         }
     }
@@ -153,8 +156,7 @@ const SongSearch = ({api, setLyrics, setAudio}: {api: SpotifyApi, setLyrics: Fun
         if (searchResultsRef.current && e.target !== null) {
             const clickInside = searchResultsRef.current.contains(e.target as Node);
             if (!clickInside) {
-                setShowingResults(false);
-                showing.current = false;
+                hideResults();
             }
         }
     }
