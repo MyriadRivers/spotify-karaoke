@@ -143,10 +143,10 @@ const Audio = forwardRef<HTMLAudioElement, Props>(({src}, ref) => {
                 volRef.current.value = "1";
             }
 
-            localRef.current.addEventListener("timeupdate", updateTime)
+            localRef.current.addEventListener("timeupdate", updateTime);
             localRef.current.addEventListener("loadeddata", () => {
                 if (localRef.current) {
-                    setDur(localRef.current.duration)
+                    setDur(localRef.current.duration);
                 }
             })
         }
@@ -154,9 +154,15 @@ const Audio = forwardRef<HTMLAudioElement, Props>(({src}, ref) => {
 
     useEffect(() => {
         if (localRef.current) {
-            setDur(localRef.current.duration)
+            setDur(localRef.current.duration);
         }
     }, [localRef.current?.duration])
+
+    useEffect(() => {
+        if (localRef.current) {
+            setPaused(localRef.current.paused);
+        }
+    }, [localRef.current?.paused])
 
     // Update curent time shown to match audio's time
     const updateTime = () => {
