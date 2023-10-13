@@ -8,6 +8,7 @@ import { useState } from 'react';
 import SongSearch from './components/SongSearch/SongSearch';
 import LyricsDisplay from './components/LyricsDisplay';
 import { Word } from './types';
+import TitleBar from './components/TitleBar';
 
 const client_id = '269d6b0c0ffe4e32b0d055155b0f8e82';
 const redirect_uri = "http://localhost:3000/"
@@ -45,8 +46,9 @@ function App() {
     <div className="App">
       <GlobalStyles />
       <AppContainer>
+        <TitleBar text={"SPOTIFY KARAOKE"}/>
         <SongSearch api={api} setLyrics={setLyrics} setAudio={setAudio}/>
-        <LyricsDisplay lyrics={lyrics} audio={audio}></LyricsDisplay>
+        <LyricsDisplay lyrics={lyrics} audio={audio} />
       </AppContainer>
     </div>
   );
