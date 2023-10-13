@@ -64,6 +64,7 @@ const SongSearch = ({api, setLyrics, setAudio}: {api: SpotifyApi, setLyrics: Fun
 
     const searchBarRef = useRef<HTMLInputElement>(null);
     const searchButtonRef = useRef<HTMLButtonElement>(null);
+    const searchResultsRef = useRef<HTMLDivElement>(null);
     
     const showing = useRef<boolean | undefined>(false);
 
@@ -147,6 +148,16 @@ const SongSearch = ({api, setLyrics, setAudio}: {api: SpotifyApi, setLyrics: Fun
             }
         }
     }
+
+    const mouseEscapeHotKey = (e: MouseEvent) => {
+        if (searchResultsRef.current && e.target !== null) {
+            const clickInside = searchResultsRef.current.contains(e.target as Node);
+            if (!clickInside) {
+                setShowingResults(false);
+                showing.current = false;
+            }
+        }
+    }
     
     useEffect(() => {
         // Hitting enter when the text field is selected is the same as pressing the search button
@@ -154,6 +165,7 @@ const SongSearch = ({api, setLyrics, setAudio}: {api: SpotifyApi, setLyrics: Fun
             searchBarRef.current.addEventListener("keypress", searchHotKey);
         }
         window.addEventListener("keydown", escapeHotKey);
+        window.addEventListener("mousedown", mouseEscapeHotKey);
 
         API.graphql<GraphQLSubscription<Song>>(
             graphqlOperation(subscriptions.addedKaraoke, {name: 69, artists: 69, duration: 69, id: 69})
@@ -172,7 +184,7 @@ const SongSearch = ({api, setLyrics, setAudio}: {api: SpotifyApi, setLyrics: Fun
                 <input onChange={songInputChange} placeholder={"What do you want to sing along to?"} ref={searchBarRef}/>
                 <button onClick={getSongs} ref={searchButtonRef}><FontAwesomeIcon icon={faSearch} size={"lg"} /></button>
             </div>
-            { showingResults && <SearchResults songs={results} onSelect={selectSong} onMaxScroll={getSongs} resetScroll={resetScroll}/> }
+            { showingResults && <SearchResults songs={results} onSelect={selectSong} onMaxScroll={getSongs} resetScroll={resetScroll} ref={searchResultsRef}/> }
         </SongSearchStyled>
     );
 };

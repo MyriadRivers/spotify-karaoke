@@ -1,7 +1,7 @@
 import { styled } from "styled-components"
 import { SongInfo } from "../../types";
 import SongInfoDisplay from "../SongInfoDisplay";
-import { UIEvent, useEffect, useRef } from "react";
+import { UIEvent, forwardRef, useEffect, useRef } from "react";
 
 const SearchResultsStyled = styled.div`
     background: #222222;
@@ -12,8 +12,14 @@ const SearchResultsStyled = styled.div`
     z-index: 1000;
 `
 
-const SearchResults = ({songs, onSelect, onMaxScroll, resetScroll} : {songs: SongInfo[], onSelect: Function, onMaxScroll: Function, resetScroll: boolean}) => {
-    const scrollWindow = useRef<HTMLDivElement>(null);
+interface Props {
+    songs: SongInfo[];
+    onSelect: Function;
+    onMaxScroll: Function;
+    resetScroll: boolean;
+}
+const SearchResults = forwardRef<HTMLDivElement, Props>(({songs, onSelect, onMaxScroll, resetScroll}, ref) => {
+    const scrollWindow = useRef<HTMLDivElement | null>(null);
 
     // Chrome allows decimals for scroll top pixels, we allow 1 pixel leeway for checking if max scroll
     const MIN_DIF = 1;
@@ -35,7 +41,14 @@ const SearchResults = ({songs, onSelect, onMaxScroll, resetScroll} : {songs: Son
     }
 
     return (
-        <SearchResultsStyled onScroll={checkScroll} ref={scrollWindow}>
+        <SearchResultsStyled onScroll={checkScroll} ref={(element) => {
+            scrollWindow.current = element;
+            if (typeof ref === "function") {
+                ref(element);
+            } else if (ref) {
+                ref.current = element;
+            }
+        }}>
             {
                 songs.map((song, index) => {
                     return (
@@ -47,6 +60,6 @@ const SearchResults = ({songs, onSelect, onMaxScroll, resetScroll} : {songs: Son
             }
         </SearchResultsStyled>
     );
-}
+})
 
 export default SearchResults;
