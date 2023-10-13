@@ -4,6 +4,7 @@ import styled from "styled-components";
 
 const StyledHelp = styled.div`
     font-size: 18pt;
+    line-height: 24pt;
 
     position: fixed;
     top: 0px;
