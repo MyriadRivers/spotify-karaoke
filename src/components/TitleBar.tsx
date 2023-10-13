@@ -50,7 +50,7 @@ const StyledTitleBar = styled.div`
 `
 
 const TitleBar = ({text}: {text: string}) => {
-    const [help, showHelp]= useState<boolean>(true);
+    const [help, showHelp]= useState<boolean>(false);
     return (
         <StyledTitleBar>
             {text}
