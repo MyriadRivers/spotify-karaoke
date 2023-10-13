@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { Word } from "../types";
 import { useEffect, useState } from "react";
 
-const StyledLyric = styled.div<{ word: Word, currTime: number | undefined, percent: number}>`
+const StyledLyric = styled.div<{ $word: Word, $currTime: number | undefined, $percent: number}>`
     /* background-color: #86cecb; */
     display: grid;
     
@@ -12,7 +12,7 @@ const StyledLyric = styled.div<{ word: Word, currTime: number | undefined, perce
     
     .back {
         color: lightgrey;
-        clip-path: inset(0 ${props => 100 - props.percent}% 0 0);
+        clip-path: inset(0 ${props => 100 - props.$percent}% 0 0);
         transition: clip-path 0.1s ease;
         grid-row: 1;
         grid-column-start: 1;
@@ -24,7 +24,7 @@ const StyledLyric = styled.div<{ word: Word, currTime: number | undefined, perce
 
     .front {
         color: black;
-        clip-path: inset(0 0 0 ${props => props.percent}%);
+        clip-path: inset(0 0 0 ${props => props.$percent}%);
         transition: clip-path 0.1s ease;
         grid-row: 1;
         grid-column-start: 1;
@@ -41,12 +41,8 @@ const Lyric = ({word, setTime, currTime, scrollWindow}: {word: Word, setTime: (m
     useEffect(() => {
         if (currTime) {
             let perc = getPercent(currTime);
-            // The print statement changes the rendering cycle somehow to make the state get updated smoothly
-            // Taking this out makes the animation look choppy
-            // TODO: figure out what the hell is going on
-            console.log("");
             if (perc !== percent) {
-                setPercent(perc)
+                setPercent(perc);
             }
         }
     }, [currTime])
@@ -62,7 +58,7 @@ const Lyric = ({word, setTime, currTime, scrollWindow}: {word: Word, setTime: (m
     }
 
     return (
-        <StyledLyric word={word} currTime={currTime} percent={percent} onClick={() => setTime(word.startTime)}>
+        <StyledLyric $word={word} $currTime={currTime} $percent={percent} onClick={() => setTime(word.startTime)}>
             <div className="back" >{word.word}</div>
             <div className="front">{word.word}</div>
         </StyledLyric>

@@ -14,6 +14,9 @@ const SearchResultsStyled = styled.div`
 
 const SearchResults = ({songs, onSelect, onMaxScroll, resetScroll} : {songs: SongInfo[], onSelect: Function, onMaxScroll: Function, resetScroll: boolean}) => {
     const scrollWindow = useRef<HTMLDivElement>(null);
+
+    // Chrome allows decimals for scroll top pixels, we allow 1 pixel leeway for checking if max scroll
+    const MIN_DIF = 1;
     
     useEffect(() => {
         if (scrollWindow.current) scrollWindow.current.scrollTop = 0;
@@ -21,7 +24,12 @@ const SearchResults = ({songs, onSelect, onMaxScroll, resetScroll} : {songs: Son
     
     const checkScroll = (event: UIEvent<HTMLElement>) => {
         const target = event.currentTarget;
-        const atBottom: boolean = target.scrollHeight - target.clientHeight === target.scrollTop;
+        const atBottom: boolean = (target.scrollHeight - target.clientHeight) - target.scrollTop < MIN_DIF;
+
+        console.log(atBottom);
+        console.log(target.scrollHeight);
+        console.log(target.clientHeight);
+        console.log(target.scrollTop);
 
         if (atBottom) onMaxScroll();
     }

@@ -243,7 +243,7 @@ const Audio = forwardRef<HTMLAudioElement, Props>(({src}, ref) => {
                 <StyledRange 
                     type="range" 
                     onChange={updateAudioTime} 
-                    max={localRef.current ? dur : 0} step={0.001} 
+                    max={(localRef.current && localRef.current.duration) ? dur : 0} step={0.001} 
                     ref={seekRef} className={"seeker"} 
                     onMouseEnter={() => setSeekHover(true)}
                     onMouseLeave={() => setSeekHover(false)}
