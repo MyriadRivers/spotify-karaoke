@@ -81,7 +81,7 @@ const LyricsDisplay = ({lyrics, audio}: {lyrics: Array<Array<Word>>, audio: stri
     }, [lyrics])
 
     const updateTime = () => {
-        if (audioRef.current != null) {
+        if (audioRef.current) {
             setCurrTime(audioRef.current.currentTime);
             requestAnimationFrame(updateTime);
         }
@@ -117,7 +117,7 @@ const LyricsDisplay = ({lyrics, audio}: {lyrics: Array<Array<Word>>, audio: stri
                 {words.map((line, lineIndex) => (
                     <Line key={lineIndex} words={line} startTime={line[0].startTime / 1000} setTime={setTime} currTime={currTime} scrollWindow={scrollLyrics}/>
                 ))}
-                {words.length == 0 && <div>Search for a song to see lyrics.</div>}
+                {words.length === 0 && <div>Search for a song to see lyrics.</div>}
             </div>
             <Audio src={audio} ref={audioRef}/>
         </LyricsDisplayStyled>

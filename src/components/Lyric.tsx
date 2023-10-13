@@ -41,7 +41,13 @@ const Lyric = ({word, setTime, currTime, scrollWindow}: {word: Word, setTime: (m
     useEffect(() => {
         if (currTime) {
             let perc = getPercent(currTime);
-            setPercent(perc)
+            // The print statement changes the rendering cycle somehow to make the state get updated smoothly
+            // Taking this out makes the animation look choppy
+            // TODO: figure out what the hell is going on
+            console.log("");
+            if (perc !== percent) {
+                setPercent(perc)
+            }
         }
     }, [currTime])
 

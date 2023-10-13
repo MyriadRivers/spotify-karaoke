@@ -1,0 +1,9 @@
+@font-face {
+    font-family: 'Asket Narrow';
+    src: url("../assets/fonts/AsketNarrow/AsketNarrowLight.otf") format('otf'),
+         url("../assets/fonts/AsketNarrow/AsketNarrowLight.eot") format('embedded-opentype'),
+         url("../assets/fonts/AsketNarrow/AsketNarrowLight.woff") format('woff'),
+         url("../assets/fonts/AsketNarrow/AsketNarrowLight.woff2") format('woff2'),
+         url("../assets/fonts/AsketNarrow/AsketNarrowLight.ttf") format('truetype'),
+         url("../assets/fonts/AsketNarrow/AsketNarrowLight.svg") format('svg');
+}
