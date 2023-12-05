@@ -89,8 +89,8 @@ const SongSearch = ({api, setLyrics, setAudio}: {api: SpotifyApi, setLyrics: Fun
     
     const showing = useRef<boolean | undefined>(false);
 
-    const [requestKaraoke, { reqData, reqLoading, reqError }] = useMutation(REQUEST_KARAOKE);
-    const { addData, addLoading, addError } = useSubscription(
+    const [requestKaraoke, { data: reqData, loading: reqLoading, error: reqError }] = useMutation(REQUEST_KARAOKE);
+    const { data: addData, loading: addLoading, error: addError } = useSubscription(
         KARAOKE_ADDED,
         { variables: { id: selectedSong?.id } }
     );
@@ -217,11 +217,12 @@ const SongSearch = ({api, setLyrics, setAudio}: {api: SpotifyApi, setLyrics: Fun
 
     // Sets audio and lyrics url whenever the subscription is updated
     useEffect(() => {
-        if (!addLoading) {
+        if (!addLoading && !addError) {
+            let lyricsObject = JSON.parse(addData.addedKaraoke.lyrics)
             setAudio(addData.addedKaraoke.url);
-            setLyrics(addData.addedKaraoke.lyrics);
+            setLyrics(lyricsObject);
         }
-    }, [addData, addLoading])
+    }, [addData, addError, addLoading])
 
     return (
         <SongSearchStyled>

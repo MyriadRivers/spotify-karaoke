@@ -74,6 +74,7 @@ const LyricsDisplay = ({lyrics, audio}: {lyrics: Array<Array<Word>>, audio: stri
             // let lyrics_object = JSON.parse(lyrics);
             // setWords(lyrics_object);
             setWords(lyrics);
+            console.log(lyrics);
             if (lyricsDisplayRef.current) {
                 lyricsDisplayRef.current.scrollTop = 0;
             }
