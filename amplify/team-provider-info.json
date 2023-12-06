@@ -1,15 +1,18 @@
 {
   "staging": {
+    "awscloudformation": {}
+  },
+  "dev": {
     "awscloudformation": {
-      "AuthRoleName": "amplify-amplify754fa9c7ad9b4-staging-203028-authRole",
-      "UnauthRoleArn": "arn:aws:iam::195246231218:role/amplify-amplify754fa9c7ad9b4-staging-203028-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::195246231218:role/amplify-amplify754fa9c7ad9b4-staging-203028-authRole",
+      "AuthRoleName": "amplify-spotifykaraoke-dev-160221-authRole",
+      "UnauthRoleArn": "arn:aws:iam::126667567487:role/amplify-spotifykaraoke-dev-160221-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::126667567487:role/amplify-spotifykaraoke-dev-160221-authRole",
       "Region": "us-east-1",
-      "DeploymentBucketName": "amplify-amplify754fa9c7ad9b4-staging-203028-deployment",
-      "UnauthRoleName": "amplify-amplify754fa9c7ad9b4-staging-203028-unauthRole",
-      "StackName": "amplify-amplify754fa9c7ad9b4-staging-203028",
-      "StackId": "arn:aws:cloudformation:us-east-1:195246231218:stack/amplify-amplify754fa9c7ad9b4-staging-203028/5f412860-572b-11ee-ae53-125832b6045b",
-      "AmplifyAppId": "d3od1ylsk7g2ts"
+      "DeploymentBucketName": "amplify-spotifykaraoke-dev-160221-deployment",
+      "UnauthRoleName": "amplify-spotifykaraoke-dev-160221-unauthRole",
+      "StackName": "amplify-spotifykaraoke-dev-160221",
+      "StackId": "arn:aws:cloudformation:us-east-1:126667567487:stack/amplify-spotifykaraoke-dev-160221/c097aa30-947a-11ee-b285-0a055ff2f703",
+      "AmplifyAppId": "dq0gge111uh94"
     },
     "categories": {
       "api": {
