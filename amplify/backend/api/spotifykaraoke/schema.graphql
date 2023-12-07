@@ -2,7 +2,7 @@
 # all models in this schema. Learn more about authorization rules here: https://docs.amplify.aws/cli/graphql/authorization-rules
 input AMPLIFY { globalAuthRule: AuthRule = { allow: public } } # FOR TESTING ONLY!
 
-type Song @aws_iam {
+type Song @aws_iam @aws_api_key {
   name: String
   artists: [String!]
   duration: Float
@@ -11,16 +11,16 @@ type Song @aws_iam {
   url: String
 }
 
-type Query @aws_iam {
+type Query @aws_iam @aws_api_key {
   getSong(id: String!): Song!
 }
 
-type Mutation @aws_iam {
+type Mutation @aws_iam @aws_api_key {
   requestKaraoke(name: String!, artists: [String!]!, duration: Float!, id: String!): Song!
   addKaraoke(id: String!, lyrics: AWSJSON!, url: String!): Song!
 }
 
-type Subscription @aws_iam {
+type Subscription @aws_iam @aws_api_key {
   requestedKaraoke: Song
   @aws_subscribe(mutations: ["requestKaraoke"])
   addedKaraoke(id: String!): Song

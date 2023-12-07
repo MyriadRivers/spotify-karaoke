@@ -4,16 +4,12 @@
     "apiName": "spotifykaraoke",
     "serviceName": "AppSync",
     "defaultAuthType": {
-      "mode": "AWS_IAM"
+      "mode": "API_KEY",
+      "expirationTime": 365,
+      "apiKeyExpirationDate": "2024-12-06T19:09:11.673Z",
+      "keyDescription": "karaoke-key"
     },
     "conflictResolution": {},
-    "additionalAuthTypes": [
-      {
-        "mode": "API_KEY",
-        "expirationTime": 7,
-        "apiKeyExpirationDate": "2023-12-14T03:08:16.060Z",
-        "keyDescription": ""
-      }
-    ]
+    "additionalAuthTypes": []
   }
 }
