@@ -102,9 +102,10 @@ const SongSearch = ({api, setLyrics, setAudio}: {api: SpotifyApi, setLyrics: Fun
 
     const selectSong = async (song: SongInfo) => {
         setSelectedSong(song);
+        setPage(0);
 
         // CODE FOR COMMUNICATING WITH APPSYNC API
-
+        console.log(song);
         await API.graphql(
             graphqlOperation(mutations.requestKaraoke, {
                 name: song.name, 
@@ -209,8 +210,14 @@ const SongSearch = ({api, setLyrics, setAudio}: {api: SpotifyApi, setLyrics: Fun
             graphqlOperation(subscriptions.addedKaraoke, {id: selectedSong?.id})
         ).subscribe({
             next: ({provider, value}) => {
-                // @ts-ignore
-                if (value.data !== undefined) console.log("Received: " + JSON.stringify(value.data.addedKaraoke))
+                if (value.data !== undefined) {
+                    // @ts-ignore
+                    console.log(value.data.addedKaraoke);
+                    // @ts-ignore
+                    setAudio(value.data.addedKaraoke.url);
+                    // @ts-ignore
+                    setLyrics(value.data.addedKaraoke.lyrics);
+                }
             },
             error: (error) => console.warn(error)
         });

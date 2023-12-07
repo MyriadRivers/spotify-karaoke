@@ -43,11 +43,6 @@ const SearchResults = forwardRef<HTMLDivElement, Props>(({ songs, onSelect, onMa
         const target = event.currentTarget;
         const atBottom: boolean = (target.scrollHeight - target.clientHeight) - target.scrollTop < MIN_DIF;
 
-        console.log(atBottom);
-        console.log(target.scrollHeight);
-        console.log(target.clientHeight);
-        console.log(target.scrollTop);
-
         if (atBottom) onMaxScroll();
     }
 
