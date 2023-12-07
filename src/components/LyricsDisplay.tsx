@@ -3,6 +3,7 @@ import { styled } from "styled-components";
 import { Word } from "../types";
 import Line from "./Line";
 import Audio from "./Audio";
+import Loading from "./Loading";
 
 const LyricsDisplayStyled = styled.div`
     /* background: salmon; */
@@ -39,7 +40,7 @@ const LyricsDisplayStyled = styled.div`
     }
 `
 
-const LyricsDisplay = ({lyrics, audio}: {lyrics: Array<Array<Word>>, audio: string}) => {
+const LyricsDisplay = ({lyrics, audio, status}: {lyrics: Array<Array<Word>>, audio: string, status: string}) => {
     const [words, setWords] = useState<Array<Array<Word>>>([]);
     const [currTime, setCurrTime] = useState<number>(0);
 
@@ -74,7 +75,6 @@ const LyricsDisplay = ({lyrics, audio}: {lyrics: Array<Array<Word>>, audio: stri
             // let lyrics_object = JSON.parse(lyrics);
             // setWords(lyrics_object);
             setWords(lyrics);
-            console.log(lyrics);
             if (lyricsDisplayRef.current) {
                 lyricsDisplayRef.current.scrollTop = 0;
             }
@@ -115,10 +115,24 @@ const LyricsDisplay = ({lyrics, audio}: {lyrics: Array<Array<Word>>, audio: stri
     return (
         <LyricsDisplayStyled>
             <div className="lyrics" ref={lyricsDisplayRef}>
-                {words.map((line, lineIndex) => (
-                    <Line key={lineIndex} words={line} startTime={line[0].startTime / 1000} setTime={setTime} currTime={currTime} scrollWindow={scrollLyrics}/>
-                ))}
-                {words.length === 0 && <div>Search for a song to see lyrics.</div>}
+                {(() => {
+                    switch (status) {
+                        case "loading":
+                            return <Loading />
+                        case "error":
+                            return <div>Looks like Spotify doesn't have the lyrics for this one.</div>
+                        default:
+                            return (
+                                <div>
+                                {words.map((line, lineIndex) => (
+                                    <Line key={lineIndex} words={line} startTime={line[0].startTime / 1000} setTime={setTime} currTime={currTime} scrollWindow={scrollLyrics}/>
+                                ))}
+                                {words.length === 0 && <div>Search for a song to see lyrics.</div>}
+                                </div>
+                            )
+                    }
+                })()}
+                
             </div>
             <Audio src={audio} ref={audioRef}/>
         </LyricsDisplayStyled>

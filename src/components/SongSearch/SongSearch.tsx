@@ -72,7 +72,7 @@ const SongSearchStyled = styled.div`
     
 // `
 
-const SongSearch = ({api, setLyrics, setAudio}: {api: SpotifyApi, setLyrics: Function, setAudio: Function}) => {
+const SongSearch = ({api, setLyrics, setStatus, setAudio}: {api: SpotifyApi, setLyrics: Function, setStatus: Function, setAudio: Function}) => {
     const [songName, setSongName] = useState("");
     const [selectedSong, setSelectedSong] = useState<SongInfo>();
     const [prevSongName, setPrevSongName] = useState("");
@@ -102,18 +102,26 @@ const SongSearch = ({api, setLyrics, setAudio}: {api: SpotifyApi, setLyrics: Fun
 
     const selectSong = async (song: SongInfo) => {
         setSelectedSong(song);
-        setPage(0);
+        setPrevSongName("");
 
-        // CODE FOR COMMUNICATING WITH APPSYNC API
-        console.log(song);
-        await API.graphql(
-            graphqlOperation(mutations.requestKaraoke, {
-                name: song.name, 
-                artists: song.artists, 
-                duration: song.duration, 
-                id: song.id
-            })
-        );
+        let lyricsResult = await fetch(`https://spotify-lyric-api-984e7b4face0.herokuapp.com/?trackid=${song.id}`);
+        console.log(lyricsResult);
+        
+        if (lyricsResult.statusText === "OK") {
+            setStatus("loading");
+            // CODE FOR COMMUNICATING WITH APPSYNC API
+            await API.graphql(
+                graphqlOperation(mutations.requestKaraoke, {
+                    name: song.name, 
+                    artists: song.artists, 
+                    duration: song.duration, 
+                    id: song.id
+                })
+            );
+        } else {
+            setStatus("error");
+        }
+        
 
         // Apollo GraphQL Mutation notifies backend subscription and begins processes
         // requestKaraoke({variables: {
@@ -211,12 +219,11 @@ const SongSearch = ({api, setLyrics, setAudio}: {api: SpotifyApi, setLyrics: Fun
         ).subscribe({
             next: ({provider, value}) => {
                 if (value.data !== undefined) {
-                    // @ts-ignore
-                    console.log(value.data.addedKaraoke);
+                    setStatus("ok")
                     // @ts-ignore
                     setAudio(value.data.addedKaraoke.url);
                     // @ts-ignore
-                    setLyrics(value.data.addedKaraoke.lyrics);
+                    setLyrics(JSON.parse(value.data.addedKaraoke.lyrics));
                 }
             },
             error: (error) => console.warn(error)

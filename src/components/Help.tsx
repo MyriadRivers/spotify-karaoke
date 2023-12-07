@@ -70,10 +70,10 @@ const Help = ({hideHelp}: {hideHelp: () => void}) => {
                     <br />
                     <br />
                     The app isn't perfect. Sometimes WhisperX will drop some audio and desync the lyrics, 
-                    and right now the app only supports English songs. Hopefully you can still get some fun out of it.
+                    and the times can sometimes get off causing some phrases to display ahead of time.
                     <br />
                     <br />
-                    If you find any bugs, let me know at jasongao678+dev (at) gmail.com, 
+                    If you find any other bugs, let me know at jasongao678+dev (at) gmail.com, 
                     and if you like the app, you can check out my site <a href="https://myriadrivers.github.io/">here</a>, 
                     <br />
                     <br />

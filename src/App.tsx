@@ -13,7 +13,8 @@ import { Amplify, Auth } from 'aws-amplify';
 import awsExports from "./aws-exports"
 
 const client_id = '269d6b0c0ffe4e32b0d055155b0f8e82';
-const redirect_uri = "https://main.d1tjf0r777xvgj.amplifyapp.com/"
+// const redirect_uri = "https://main.d1tjf0r777xvgj.amplifyapp.com/"
+const redirect_uri = "https://localhost:3000/"
 
 Amplify.configure(awsExports);
 Auth.configure(awsExports);
@@ -44,6 +45,7 @@ const AppContainer = styled.div`
 `
 
 function App() {
+  const [status, setStatus] = useState("ok");
   const [lyrics, setLyrics] = useState<Array<Array<Word>>>([]);
   const [audio, setAudio] = useState("")
 
@@ -52,8 +54,8 @@ function App() {
       <GlobalStyles />
       <AppContainer>
         <TitleBar text={"SPOTIFY KARAOKE"}/>
-        <SongSearch api={api} setLyrics={setLyrics} setAudio={setAudio}/>
-        <LyricsDisplay lyrics={lyrics} audio={audio} />
+        <SongSearch api={api} setLyrics={setLyrics} setStatus={setStatus} setAudio={setAudio}/>
+        <LyricsDisplay lyrics={lyrics} audio={audio} status={status}/>
       </AppContainer>
     </div>
   );
