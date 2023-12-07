@@ -30,7 +30,7 @@ const Loading = () => {
     return (
         <StyledLoading>
             <InfiniteRotate />
-            Generating synchronized lyrics, this should take around 2 minutes...
+            Generating synchronized lyrics...
         </StyledLoading>
     )
 }
