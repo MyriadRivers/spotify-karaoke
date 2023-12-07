@@ -9,8 +9,6 @@ import * as subscriptions from '../../graphql/subscriptions'
 import * as mutations from '../../graphql/mutations'
 import { GraphQLSubscription } from "@aws-amplify/api";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { icon } from "@fortawesome/fontawesome-svg-core";
-import { faAddressCard, faAngry } from "@fortawesome/free-regular-svg-icons";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { gql, useMutation, useSubscription } from "@apollo/client";
 
@@ -55,24 +53,24 @@ const SongSearchStyled = styled.div`
     }
 `
 
-const REQUEST_KARAOKE = gql`
-    mutation RequestKaraoke($name: String!, $artists: [String!]!, $duration: Float!, $id: String!) {
-        requestKaraoke(name: $name, artists: $artists, duration: $duration, id: $id) {
-            name
-            artists
-        }
-    }
-`
+// const REQUEST_KARAOKE = gql`
+//     mutation RequestKaraoke($name: String!, $artists: [String!]!, $duration: Float!, $id: String!) {
+//         requestKaraoke(name: $name, artists: $artists, duration: $duration, id: $id) {
+//             name
+//             artists
+//         }
+//     }
+// `
 
-const KARAOKE_ADDED = gql`
-    subscription AddedKaraoke($id: String!) {
-        addedKaraoke(id: $id) {
-            lyrics
-            url
-        }
-    }
+// const KARAOKE_ADDED = gql`
+//     subscription AddedKaraoke($id: String!) {
+//         addedKaraoke(id: $id) {
+//             lyrics
+//             url
+//         }
+//     }
     
-`
+// `
 
 const SongSearch = ({api, setLyrics, setAudio}: {api: SpotifyApi, setLyrics: Function, setAudio: Function}) => {
     const [songName, setSongName] = useState("");
@@ -89,11 +87,11 @@ const SongSearch = ({api, setLyrics, setAudio}: {api: SpotifyApi, setLyrics: Fun
     
     const showing = useRef<boolean | undefined>(false);
 
-    const [requestKaraoke, { data: reqData, loading: reqLoading, error: reqError }] = useMutation(REQUEST_KARAOKE);
-    const { data: addData, loading: addLoading, error: addError } = useSubscription(
-        KARAOKE_ADDED,
-        { variables: { id: selectedSong?.id } }
-    );
+    // const [requestKaraoke, { data: reqData, loading: reqLoading, error: reqError }] = useMutation(REQUEST_KARAOKE);
+    // const { data: addData, loading: addLoading, error: addError } = useSubscription(
+    //     KARAOKE_ADDED,
+    //     { variables: { id: selectedSong?.id } }
+    // );
 
     const songInputChange = (event: ChangeEvent) => {
         if (event.target) {
@@ -105,24 +103,24 @@ const SongSearch = ({api, setLyrics, setAudio}: {api: SpotifyApi, setLyrics: Fun
     const selectSong = async (song: SongInfo) => {
         setSelectedSong(song);
 
-        // CODE FOR COMMUNICATING WITH APPSYNC API, TOOK THIS DOWN FOR NOW TO MOCK UP
+        // CODE FOR COMMUNICATING WITH APPSYNC API
 
-        // await API.graphql(
-        //     graphqlOperation(mutations.requestKaraoke, {
-        //         name: song.name, 
-        //         artists: song.artists, 
-        //         duration: song.duration, 
-        //         id: song.id
-        //     })
-        // );
+        await API.graphql(
+            graphqlOperation(mutations.requestKaraoke, {
+                name: song.name, 
+                artists: song.artists, 
+                duration: song.duration, 
+                id: song.id
+            })
+        );
 
         // Apollo GraphQL Mutation notifies backend subscription and begins processes
-        requestKaraoke({variables: {
-            name: song.name,
-            artists: song.artists,
-            duration: song.duration,
-            id: song.id
-        }})
+        // requestKaraoke({variables: {
+        //     name: song.name,
+        //     artists: song.artists,
+        //     duration: song.duration,
+        //     id: song.id
+        // }})
         
         hideResults();
 
@@ -203,26 +201,29 @@ const SongSearch = ({api, setLyrics, setAudio}: {api: SpotifyApi, setLyrics: Fun
         }
         window.addEventListener("keydown", escapeHotKey);
         window.addEventListener("mousedown", mouseEscapeHotKey);
-
-        // API.graphql<GraphQLSubscription<Song>>(
-        //     graphqlOperation(subscriptions.addedKaraoke, {name: 69, artists: 69, duration: 69, id: 69})
-        // ).subscribe({
-        //     next: ({provider, value}) => {
-        //         // @ts-ignore
-        //         if (value.data !== undefined) console.log("Received: " + JSON.stringify(value.data.addedKaraoke))
-        //     },
-        //     error: (error) => console.warn(error)
-        // });
     }, [])
 
-    // Sets audio and lyrics url whenever the subscription is updated
+    // Subscribe to song when selected
     useEffect(() => {
-        if (!addLoading && !addError) {
-            let lyricsObject = JSON.parse(addData.addedKaraoke.lyrics)
-            setAudio(addData.addedKaraoke.url);
-            setLyrics(lyricsObject);
-        }
-    }, [addData, addError, addLoading])
+        API.graphql<GraphQLSubscription<Song>>(
+            graphqlOperation(subscriptions.addedKaraoke, {id: selectedSong?.id})
+        ).subscribe({
+            next: ({provider, value}) => {
+                // @ts-ignore
+                if (value.data !== undefined) console.log("Received: " + JSON.stringify(value.data.addedKaraoke))
+            },
+            error: (error) => console.warn(error)
+        });
+    }, [selectedSong])
+
+    // Sets audio and lyrics url whenever the subscription is updated when using Apollo API
+    // useEffect(() => {
+    //     if (!addLoading && !addError) {
+    //         let lyricsObject = JSON.parse(addData.addedKaraoke.lyrics)
+    //         setAudio(addData.addedKaraoke.url);
+    //         setLyrics(lyricsObject);
+    //     }
+    // }, [addData, addError, addLoading])
 
     return (
         <SongSearchStyled>

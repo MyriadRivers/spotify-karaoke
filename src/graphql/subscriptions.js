@@ -15,13 +15,8 @@ export const requestedKaraoke = /* GraphQL */ `
   }
 `;
 export const addedKaraoke = /* GraphQL */ `
-  subscription AddedKaraoke(
-    $name: String!
-    $artists: [String!]!
-    $duration: Float!
-    $id: String!
-  ) {
-    addedKaraoke(name: $name, artists: $artists, duration: $duration, id: $id) {
+  subscription AddedKaraoke($id: String!) {
+    addedKaraoke(id: $id) {
       name
       artists
       duration

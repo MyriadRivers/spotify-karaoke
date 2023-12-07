@@ -25,22 +25,8 @@ export const requestKaraoke = /* GraphQL */ `
   }
 `;
 export const addKaraoke = /* GraphQL */ `
-  mutation AddKaraoke(
-    $name: String!
-    $artists: [String!]!
-    $duration: Float!
-    $id: String!
-    $lyrics: AWSJSON!
-    $url: String!
-  ) {
-    addKaraoke(
-      name: $name
-      artists: $artists
-      duration: $duration
-      id: $id
-      lyrics: $lyrics
-      url: $url
-    ) {
+  mutation AddKaraoke($id: String!, $lyrics: AWSJSON!, $url: String!) {
+    addKaraoke(id: $id, lyrics: $lyrics, url: $url) {
       name
       artists
       duration
