@@ -1,7 +1,4 @@
 {
-  "dev": {
-    "awscloudformation": {}
-  },
   "staging": {
     "awscloudformation": {
       "AuthRoleName": "amplify-spotifykaraoke-staging-164614-authRole",
@@ -19,5 +16,8 @@
         "spotifykaraoke": {}
       }
     }
+  },
+  "dev": {
+    "awscloudformation": {}
   }
 }
