@@ -3,7 +3,7 @@ import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { SongInfo, Song } from "../../types";
 import { styled } from "styled-components";
 import SearchResults from "./SearchResults";
-import { API, graphqlOperation } from "aws-amplify";
+import { API, Amplify, graphqlOperation } from "aws-amplify";
 
 import * as subscriptions from '../../graphql/subscriptions'
 import * as mutations from '../../graphql/mutations'

@@ -9,9 +9,14 @@ import SongSearch from './components/SongSearch/SongSearch';
 import LyricsDisplay from './components/LyricsDisplay';
 import { Word } from './types';
 import TitleBar from './components/TitleBar';
+import { Amplify } from 'aws-amplify';
 
 const client_id = '269d6b0c0ffe4e32b0d055155b0f8e82';
 const redirect_uri = "https://main.d1tjf0r777xvgj.amplifyapp.com/"
+
+import awsExports from "./aws-exports"
+
+Amplify.configure(awsExports);
 
 const api = SpotifyApi.withUserAuthorization(
   client_id, redirect_uri
