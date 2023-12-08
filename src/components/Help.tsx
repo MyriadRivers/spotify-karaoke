@@ -69,9 +69,8 @@ const Help = ({hideHelp}: {hideHelp: () => void}) => {
                     Deezer's Spleeter source separation model was used to remove the vocals from the music.
                     <br />
                     <br />
-                    Sometimes WhisperX will drop some audio and desync the lyrics, 
-                    and the times can sometimes get off causing some phrases to display ahead of time. Also, only English lyrics
-                    work well right now.
+                    The alignment is far from perfect; the model can sometimes drop audio, and it doesn't do too well with abstract a cappella or polyphony.
+                    Also, only English songs work decently right now.  
                     <br />
                     <br />
                     If you find any other bugs, let me know at jasongao678+dev (at) gmail.com, 

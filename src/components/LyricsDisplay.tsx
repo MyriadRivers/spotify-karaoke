@@ -124,7 +124,7 @@ const LyricsDisplay = ({lyrics, audio, status}: {lyrics: Array<Array<Word>>, aud
                         case "loading":
                             return <Loading />
                         case "error":
-                            return <div>Looks like Spotify doesn't have the lyrics for this one.</div>
+                            return <div>Looks like we can't find the lyrics for this one.</div>
                         default:
                             return (
                                 <div className={"lyrics"}>
