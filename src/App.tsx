@@ -13,8 +13,8 @@ import { Amplify, Auth } from 'aws-amplify';
 import awsExports from "./aws-exports"
 
 const client_id = '269d6b0c0ffe4e32b0d055155b0f8e82';
-// const redirect_uri = "https://main.d1tjf0r777xvgj.amplifyapp.com/"
-const redirect_uri = "https://localhost:3000/"
+const redirect_uri = "https://main.d1tjf0r777xvgj.amplifyapp.com/"
+// const redirect_uri = "https://localhost:3000/"
 
 Amplify.configure(awsExports);
 Auth.configure(awsExports);

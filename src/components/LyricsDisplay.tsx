@@ -16,15 +16,11 @@ const LyricsDisplayStyled = styled.div`
     .lyrics {
         background: #d12f4e;
         white-space: pre-line;
-        overflow: auto;
         display: flex;
         flex-direction: column;
         gap: 12pt;
-        padding: 12pt;
 
         /* font-family: Arial, Helvetica, sans-serif; */
-        font-size: 16pt;
-        font-weight: bold;
 
         scroll-behavior: smooth;
         scrollbar-color: #FFFFFF40 #FFFFFF00;
@@ -37,6 +33,14 @@ const LyricsDisplayStyled = styled.div`
         &::-webkit-scrollbar-thumb {
             background: #FFFFFF40;
         }
+    }
+    
+    .lyricsContainer {
+        background: #d12f4e;
+        font-size: 16pt;
+        font-weight: bold;
+        padding: 12pt;
+        overflow: auto;
     }
 `
 
@@ -114,7 +118,7 @@ const LyricsDisplay = ({lyrics, audio, status}: {lyrics: Array<Array<Word>>, aud
 
     return (
         <LyricsDisplayStyled>
-            <div className="lyrics" ref={lyricsDisplayRef}>
+            <div className="lyricsContainer" ref={lyricsDisplayRef}>
                 {(() => {
                     switch (status) {
                         case "loading":
@@ -123,7 +127,7 @@ const LyricsDisplay = ({lyrics, audio, status}: {lyrics: Array<Array<Word>>, aud
                             return <div>Looks like Spotify doesn't have the lyrics for this one.</div>
                         default:
                             return (
-                                <div>
+                                <div className={"lyrics"}>
                                 {words.map((line, lineIndex) => (
                                     <Line key={lineIndex} words={line} startTime={line[0].startTime / 1000} setTime={setTime} currTime={currTime} scrollWindow={scrollLyrics}/>
                                 ))}

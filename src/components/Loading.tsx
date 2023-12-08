@@ -18,7 +18,7 @@ const InfiniteRotate = styled.div`
 `
 
 const StyledLoading = styled.div`
-    aspect-ratio: 1/1;
+    height: 250px;
     display: flex;
     flex-direction: column;
     gap: 20px;
