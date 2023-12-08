@@ -24,13 +24,19 @@ const StyledLoading = styled.div`
     gap: 20px;
     justify-content: center;
     align-items: center;
+
+    .loadingMessage {
+        text-align: center;
+    }
 `
 
 const Loading = () => {
     return (
         <StyledLoading>
             <InfiniteRotate />
-            Generating synchronized lyrics...
+            <div className="loadingMessage">
+                Generating synchronized lyrics...
+            </div>
         </StyledLoading>
     )
 }
