@@ -103,6 +103,8 @@ const SongSearch = ({api, setLyrics, setStatus, setAudio}: {api: SpotifyApi, set
     const selectSong = async (song: SongInfo) => {
         setSelectedSong(song);
         setPrevSongName("");
+        // Reset the audio link
+        setAudio("");
 
         let lyricsResult = await fetch(`https://spotify-lyric-api-984e7b4face0.herokuapp.com/?trackid=${song.id}`);
         console.log(lyricsResult);
