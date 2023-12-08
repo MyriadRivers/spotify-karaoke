@@ -90,7 +90,7 @@ const StyledRange = styled.input<{$hover: boolean}>`
         width: ${props => props.$hover ? "16px" : "8px"};
         margin: 0px 0px 0px 0px;
 
-        box-shadow: 0px 0px 0px 10000px ${props => props.$hover ? "#d12f4e" : "lightgrey"};
+        box-shadow: 0px 0px 0px 10000px ${props => props.$hover ? props.theme.accent : "lightgrey"};
         clip-path: inset(0px 0px 0px -100vw round ${props => props.$hover ? "0px" : "16px"});
     }
 
@@ -111,7 +111,7 @@ const StyledRange = styled.input<{$hover: boolean}>`
     }
 
     &::-moz-range-progress {
-        background-color: ${props => props.$hover ? "#d12f4e" : "lightgrey"};
+        background-color: ${props => props.$hover ? props.theme.accent : "lightgrey"};
         border: none;
         height: 100%;
         border-radius: 8px;

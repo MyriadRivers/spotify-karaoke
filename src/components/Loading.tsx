@@ -12,7 +12,7 @@ const InfiniteRotate = styled.div`
     width: 50px;
     height: 50px;
     border: 10px solid;
-    border-top: 10px solid #d12f4e;
+    border-top: 10px solid ${props => props.theme.body};;
     border-radius: 50%;
     animation: ${rotate} 1.5s linear infinite;
 `

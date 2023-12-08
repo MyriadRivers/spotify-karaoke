@@ -7,7 +7,7 @@ import "../styles/fonts.css";
 
 const StyledTitleBar = styled.div`
     /* background: plum; */
-    color: #d12f4e;
+    color: ${props => props.theme.accent};
 
     font-family: "Asket Narrow";
     font-size: 28pt;

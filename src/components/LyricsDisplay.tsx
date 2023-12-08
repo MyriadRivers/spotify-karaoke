@@ -14,7 +14,6 @@ const LyricsDisplayStyled = styled.div`
     gap: 20px;
 
     .lyrics {
-        background: #d12f4e;
         white-space: pre-line;
         display: flex;
         flex-direction: column;
@@ -36,7 +35,7 @@ const LyricsDisplayStyled = styled.div`
     }
     
     .lyricsContainer {
-        background: #d12f4e;
+        background: ${props => props.theme.body};
         font-size: 16pt;
         font-weight: bold;
         padding: 12pt;

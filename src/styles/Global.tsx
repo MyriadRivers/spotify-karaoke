@@ -2,7 +2,11 @@ import { createGlobalStyle } from "styled-components";
 
 const GlobalStyles = createGlobalStyle`
 
-    html, body {
+    html {
+        height: 100%;
+    }
+
+    body {
         background: black;
         height: 100%;
         padding: 0px;
@@ -10,9 +14,12 @@ const GlobalStyles = createGlobalStyle`
         font-family: Arial, Helvetica, sans-serif;
     }
 
+    #root {
+        height: 100%;
+    }
+
     .App {
-        background: #111111;
-        height: 100vh;
+        height: 100%;
     }
 `
 

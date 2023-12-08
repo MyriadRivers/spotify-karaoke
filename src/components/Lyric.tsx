@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { Word } from "../types";
 import { useEffect, useState } from "react";
 
-const StyledLyric = styled.div<{ $word: Word, $currTime: number | undefined, $percent: number}>`
+const StyledLyric = styled.div<{$percent: number}>`
     /* background-color: #86cecb; */
     display: grid;
     
@@ -37,6 +37,7 @@ const StyledLyric = styled.div<{ $word: Word, $currTime: number | undefined, $pe
 
 const Lyric = ({word, setTime, currTime, scrollWindow}: {word: Word, setTime: (ms: number) => void, currTime: number | undefined, scrollWindow: (y: number) => void}) => {
     const [percent, setPercent] = useState<number>(0);
+    const [printed, setPrinted] = useState<boolean>(false);
 
     useEffect(() => {
         if (currTime) {
@@ -46,6 +47,15 @@ const Lyric = ({word, setTime, currTime, scrollWindow}: {word: Word, setTime: (m
             }
         }
     }, [currTime])
+
+    // useEffect(() => {
+    //     if (currTime) {
+    //         if (currTime > (word.startTime / 1000) && !printed) {
+    //             console.log(word.word);
+    //             setPrinted(true);
+    //         }
+    //     }        
+    // }, [currTime])
 
     /**
      * Returns an integer 0 - 100 representing what percent of the current lyric word has been sung.
@@ -58,7 +68,7 @@ const Lyric = ({word, setTime, currTime, scrollWindow}: {word: Word, setTime: (m
     }
 
     return (
-        <StyledLyric $word={word} $currTime={currTime} $percent={percent} onClick={() => setTime(word.startTime)}>
+        <StyledLyric $percent={percent} onClick={() => setTime(word.startTime)}>
             <div className="back" >{word.word}</div>
             <div className="front">{word.word}</div>
         </StyledLyric>

@@ -51,7 +51,7 @@ const StyledHelp = styled.div`
         }
 
         a {
-            color: #d12f4e;
+            color: ${props => props.theme.accent};
             text-decoration: none;
         }
     }

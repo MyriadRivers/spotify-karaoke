@@ -1,6 +1,6 @@
 import { SpotifyApi } from '@spotify/web-api-ts-sdk';
 import GlobalStyles from './styles/Global';
-import { styled } from 'styled-components';
+import { ThemeProvider, styled } from 'styled-components';
 
 import testLyrics from './assets/testLyrics.json'
 import { useState } from 'react';
@@ -11,6 +11,7 @@ import { Word } from './types';
 import TitleBar from './components/TitleBar';
 import { Amplify, Auth } from 'aws-amplify';
 import awsExports from "./aws-exports"
+import { spotifyGreen } from './styles/themes';
 
 const client_id = '269d6b0c0ffe4e32b0d055155b0f8e82';
 const redirect_uri = "https://main.d1tjf0r777xvgj.amplifyapp.com/"
@@ -50,14 +51,16 @@ function App() {
   const [audio, setAudio] = useState("")
 
   return (
-    <div className="App">
-      <GlobalStyles />
-      <AppContainer>
-        <TitleBar text={"SPOTIFY KARAOKE"}/>
-        <SongSearch api={api} setLyrics={setLyrics} setStatus={setStatus} setAudio={setAudio}/>
-        <LyricsDisplay lyrics={lyrics} audio={audio} status={status}/>
-      </AppContainer>
-    </div>
+    <ThemeProvider theme={spotifyGreen}>
+      <div className="App">
+        <GlobalStyles />
+        <AppContainer>
+          <TitleBar text={"SPOTIFY KARAOKE"}/>
+          <SongSearch api={api} setLyrics={setLyrics} setStatus={setStatus} setAudio={setAudio}/>
+          <LyricsDisplay lyrics={lyrics} audio={audio} status={status}/>
+        </AppContainer>
+      </div>
+    </ThemeProvider>
   );
 }
 
