@@ -12,8 +12,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { gql, useMutation, useSubscription } from "@apollo/client";
 
-const audio_file = "call-me-maybe-accompaniment.wav";
-var lyrics = require("../../assets/call-me-maybe-karaoke.json")
+import mockBackendData from "../../assets/mock_backend_data.json";
+import mockSpotifyData from "../../assets/mock_spotify_data.json";
 
 const SongSearchStyled = styled.div`
     background: red;
