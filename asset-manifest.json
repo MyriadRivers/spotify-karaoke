@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/spotify-karaoke/static/css/main.efa9f1df.css",
+    "main.js": "/spotify-karaoke/static/js/main.f46c15ec.js",
+    "static/js/787.873029ab.chunk.js": "/spotify-karaoke/static/js/787.873029ab.chunk.js",
+    "static/media/track.wav": "/spotify-karaoke/static/media/track.b3125a58678bd343a731.wav",
+    "static/media/AsketNarrowLight.svg": "/spotify-karaoke/static/media/AsketNarrowLight.16b9ec78224df40d0096.svg",
+    "static/media/AsketNarrowLight.eot": "/spotify-karaoke/static/media/AsketNarrowLight.341d97bfb4c363880372.eot",
+    "static/media/AsketNarrowLight.ttf": "/spotify-karaoke/static/media/AsketNarrowLight.16beeeeaa6d853a7441e.ttf",
+    "static/media/AsketNarrowLight.otf": "/spotify-karaoke/static/media/AsketNarrowLight.fd20143bc811dc6055db.otf",
+    "static/media/AsketNarrowLight.woff": "/spotify-karaoke/static/media/AsketNarrowLight.d6dcc79db885b4be693b.woff",
+    "static/media/AsketNarrowLight.woff2": "/spotify-karaoke/static/media/AsketNarrowLight.6d8a48a2ee9b15c7d7f9.woff2",
+    "index.html": "/spotify-karaoke/index.html",
+    "main.efa9f1df.css.map": "/spotify-karaoke/static/css/main.efa9f1df.css.map",
+    "main.f46c15ec.js.map": "/spotify-karaoke/static/js/main.f46c15ec.js.map",
+    "787.873029ab.chunk.js.map": "/spotify-karaoke/static/js/787.873029ab.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.efa9f1df.css",
+    "static/js/main.f46c15ec.js"
+  ]
+}
