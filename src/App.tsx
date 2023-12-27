@@ -2,7 +2,6 @@ import { SpotifyApi } from '@spotify/web-api-ts-sdk';
 import GlobalStyles from './styles/Global';
 import { ThemeProvider, styled } from 'styled-components';
 
-import testLyrics from './assets/testLyrics.json'
 import { useState } from 'react';
 
 import SongSearch from './components/SongSearch/SongSearch';
@@ -13,22 +12,22 @@ import { Amplify, Auth } from 'aws-amplify';
 import awsExports from "./aws-exports"
 import { spotifyGreen } from './styles/themes';
 
-const client_id = '269d6b0c0ffe4e32b0d055155b0f8e82';
-const redirect_uri = "https://main.d1tjf0r777xvgj.amplifyapp.com/"
+// const client_id = '269d6b0c0ffe4e32b0d055155b0f8e82';
+// const redirect_uri = "https://main.d1tjf0r777xvgj.amplifyapp.com/"
 // const redirect_uri = "https://localhost:3000/"
 
 Amplify.configure(awsExports);
 Auth.configure(awsExports);
 
-const api = SpotifyApi.withUserAuthorization(
-  client_id, redirect_uri
-);
+// const api = SpotifyApi.withUserAuthorization(
+//   client_id, redirect_uri
+// );
 
-const auth = async () => {
-  await api.authenticate();
-}
+// const auth = async () => {
+//   await api.authenticate();
+// }
 
-auth();
+// auth();
 
 const AppContainer = styled.div`
   /* background: purple; */
@@ -56,7 +55,7 @@ function App() {
         <GlobalStyles />
         <AppContainer>
           <TitleBar text={"SPOTIFY KARAOKE"}/>
-          <SongSearch api={api} setLyrics={setLyrics} setStatus={setStatus} setAudio={setAudio}/>
+          <SongSearch setLyrics={setLyrics} setStatus={setStatus} setAudio={setAudio}/>
           <LyricsDisplay lyrics={lyrics} audio={audio} status={status}/>
         </AppContainer>
       </div>

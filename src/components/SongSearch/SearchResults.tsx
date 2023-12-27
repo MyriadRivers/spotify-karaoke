@@ -5,7 +5,7 @@ import { UIEvent, forwardRef, useEffect, useRef } from "react";
 
 const SearchResultsStyled = styled.div`
     background: #222222;
-    height: 80vh;
+    max-height: 80vh;
     width: 100%;
     overflow: auto;
     position: absolute;

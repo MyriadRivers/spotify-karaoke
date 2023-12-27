@@ -1,4 +1,4 @@
-import { SpotifyApi } from "@spotify/web-api-ts-sdk";
+import { Image, SpotifyApi } from "@spotify/web-api-ts-sdk";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { SongInfo, Song } from "../../types";
 import { styled } from "styled-components";
@@ -12,7 +12,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { gql, useMutation, useSubscription } from "@apollo/client";
 
-import mockBackendData from "../../assets/mock_backend_data.json";
+import mockBackendData from "../../assets/mock_backend_data.js";
 import mockSpotifyData from "../../assets/mock_spotify_data.json";
 
 const SongSearchStyled = styled.div`
@@ -72,7 +72,7 @@ const SongSearchStyled = styled.div`
     
 // `
 
-const SongSearch = ({api, setLyrics, setStatus, setAudio}: {api: SpotifyApi, setLyrics: Function, setStatus: Function, setAudio: Function}) => {
+const SongSearch = ({api, setLyrics, setStatus, setAudio}: {api?: SpotifyApi, setLyrics: Function, setStatus: Function, setAudio: Function}) => {
     const [songName, setSongName] = useState("");
     const [selectedSong, setSelectedSong] = useState<SongInfo>();
     const [prevSongName, setPrevSongName] = useState("");
@@ -107,19 +107,25 @@ const SongSearch = ({api, setLyrics, setStatus, setAudio}: {api: SpotifyApi, set
         setAudio("");
 
         let lyricsResult = await fetch(`https://spotify-lyric-api-984e7b4face0.herokuapp.com/?trackid=${song.id}`);
-        console.log(lyricsResult);
         
         if (lyricsResult.statusText === "OK") {
-            setStatus("loading");
+            // setStatus("loading");
             // CODE FOR COMMUNICATING WITH APPSYNC API
-            await API.graphql(
-                graphqlOperation(mutations.requestKaraoke, {
-                    name: song.name, 
-                    artists: song.artists, 
-                    duration: song.duration, 
-                    id: song.id
-                })
-            );
+            // await API.graphql(
+            //     graphqlOperation(mutations.requestKaraoke, {
+            //         name: song.name, 
+            //         artists: song.artists, 
+            //         duration: song.duration, 
+            //         id: song.id
+            //     })
+            // );
+            setStatus("ok")
+            let mockSong = mockBackendData.filter((track) => track.id === song.id)[0];
+            let mockURL = mockSong.audio;
+            let mockLyrics = mockSong.lyrics;
+            
+            setAudio(mockURL);
+            setLyrics(mockLyrics);
         } else {
             setStatus("error");
         }
@@ -158,22 +164,11 @@ const SongSearch = ({api, setLyrics, setStatus, setAudio}: {api: SpotifyApi, set
             setResetScroll(prevSongName !== songName);
 
             let newPage = prevSongName !== songName ? 0 : page + 1;
-            let rawResults = await api.search(songName, ["track"], undefined, 10, newPage * 10);
-            let tracks = rawResults.tracks.items;
-            let songInfoResults: Array<SongInfo> = tracks.map((track) => {
-                return {
-                    name: track.name,
-                    artists: track.artists.map((artist) => {
-                        return artist.name;
-                    }),
-                    image: track.album.images[2],
-                    duration: track.duration_ms / 1000,
-                    id: track.id
-                }
-            })
             // Show new results, or append if scrolling down
             setPage(newPage);
-            setResults(prevSongName !== songName ? songInfoResults : [...results, ...songInfoResults]);
+
+            // Show mock generated data
+            setResults(mockSpotifyData);
             setPrevSongName(songName);
             setShowingResults(true);
         }
@@ -227,8 +222,7 @@ const SongSearch = ({api, setLyrics, setStatus, setAudio}: {api: SpotifyApi, set
                     // @ts-ignore
                     setLyrics(JSON.parse(value.data.addedKaraoke.lyrics));
                 }
-            },
-            error: (error) => console.warn(error)
+            }
         });
     }, [selectedSong])
 

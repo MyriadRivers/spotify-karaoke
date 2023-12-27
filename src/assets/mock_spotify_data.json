@@ -2,8 +2,111 @@
     {
         "name": "A Whole New World",
         "artists": ["Lea Salonga", "Brad Kane", "Disney"],
-        "image": "",
-        "duration": "",
-        "id": ""
+        "image": {
+            "url": "https://i.scdn.co/image/ab67616d000048514a4b92dcf7a5c51cc4f7424c",
+            "height": 64,
+            "width": 64
+        },
+        "duration": 160.8,
+        "id": "1hwdPQtFHISvZ9SXMkNrIK"
+    },
+    {
+        "name": "Hotel California - 2013 Remaster",
+        "artists": ["Eagles"],
+        "image": {
+            "url": "https://i.scdn.co/image/ab67616d000048514637341b9f507521afa9a778",
+            "height": 64,
+            "width": 64
+        },
+        "duration": 391.376,
+        "id": "40riOy7x9W7GXjyGp4pjAv"
+    },
+    {
+        "name": "Last Christmas",
+        "artists": ["Wham!"],
+        "image": {
+            "url": "https://i.scdn.co/image/ab67616d00004851f2d2adaa21ad616df6241e7d",
+            "height": 64,
+            "width": 64
+        },
+        "duration": 262.96,
+        "id": "2FRnf9qhLbvw8fu4IBXx78"
+    },
+    {
+        "name": "In the End",
+        "artists": ["Linkin Park"],
+        "image": {
+            "url": "https://i.scdn.co/image/ab67616d00004851e2f039481babe23658fc719a",
+            "height": 64,
+            "width": 64
+        },
+        "duration": 216.88,
+        "id": "60a0Rd6pjrkxjPbaKzXjfq"
+    },
+    {
+        "name": "Call Me Maybe",
+        "artists": ["Carly Rae Jepsen"],
+        "image": {
+            "url": "https://i.scdn.co/image/ab67616d00004851a111f7769013f1731e9c697c",
+            "height": 64,
+            "width": 64
+        },
+        "duration": 193.4,
+        "id": "3TGRqZ0a2l1LRblBkJoaDx"
+    },
+    {
+        "name": "I Want It That Way",
+        "artists": ["Backstreet Boys"],
+        "image": {
+            "url": "https://i.scdn.co/image/ab67616d000048512160c02bc56f192df0f4986b",
+            "height": 64,
+            "width": 64
+        },
+        "duration": 300.246,
+        "id": "47BBI51FKFwOMlIiX6m8ya"
+    },
+    {
+        "name": "Way Down Hadestown",
+        "artists": ["Original Broadway Cast of Hadestown", "Anaïs Mitchell"],
+        "image": {
+            "url": "https://i.scdn.co/image/ab67616d00004851b62a5129d9efa26386143622",
+            "height": 64,
+            "width": 64
+        },
+        "duration": 213.306,
+        "id": "5fnl0Tyeh4r5gPANdaVu61"
+    },
+    {
+        "name": "Oleander",
+        "artists": ["Mother Mother"],
+        "image": {
+            "url": "https://i.scdn.co/image/ab67616d000048510593d798ca1c1e45eedb1df6",
+            "height": 64,
+            "width": 64
+        },
+        "duration": 200.6,
+        "id": "5dn0Sn7oEwq5Q3Hg5C7W0s"
+    },
+    {
+        "name": "How to Be a Heartbreaker",
+        "artists": ["MARINA"],
+        "image": {
+            "url": "https://i.scdn.co/image/ab67616d00004851203e4c6a048df02a21cdd813",
+            "height": 64,
+            "width": 64
+        },
+        "duration": 221.493,
+        "id": "2sEk5R8ErGIFxbZ7rX6S2S"
+    },
+    {
+        "name": "Hoe Cakes",
+        "artists": ["MF Doom"],
+        "image": {
+            "url": "https://i.scdn.co/image/ab67616d0000485152f194d02c39909d1b284799",
+            "height": 64,
+            "width": 64
+        },
+        "duration": 234.146,
+        "id": "4b82tXj35SycILuILcgBQ6"
     }
 ]
