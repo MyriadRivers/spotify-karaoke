@@ -66,20 +66,14 @@ const Help = ({hideHelp}: {hideHelp: () => void}) => {
                         This app was built with React.js.
                     </p>
                     <p>
-                        The backend uses the WhisperX speech-to-text transcription model to align the times of the lyrics.
-                        Deezer's Spleeter source separation model was used to remove the vocals from the music.
+                        NOTE: The original app back end, which would automatically generate a word-synced karaoke
+                        track for most English songs on Spotify, was taken down due to resource constraints of hosting on the cloud.
                     </p>
                     <p>
-                        Here are known issues with the app:
-                        <ul>
-                            <li>The model can sometimes drop segments of audio, causing a couple of lines to get out of sync. They should resync after a while.</li>
-                            <li>The app doesn't work with non-English songs.</li>
-                            <li>The lyrics API doesn't have some songs that have lyrics on Spotify.</li>
-                        </ul>
+                        This is a front-end demo using pregenerated data from 10 tracks before the back end was taken down. 
                     </p>
                     <p>
-                        If you find any other bugs, let me know at jasongao678+dev (at) gmail.com, 
-                        and if you like the app, you can check out my site <a href="https://myriadrivers.github.io/">here</a>, 
+                        If you like the functionality of the app, you can check out my site <a href="https://jasoncgao.com/">here</a>. 
                     </p>
                     <p>
                         —Jason

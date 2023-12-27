@@ -210,21 +210,21 @@ const SongSearch = ({api, setLyrics, setStatus, setAudio}: {api?: SpotifyApi, se
     }, [])
 
     // Subscribe to song when selected
-    useEffect(() => {
-        API.graphql<GraphQLSubscription<Song>>(
-            graphqlOperation(subscriptions.addedKaraoke, {id: selectedSong?.id})
-        ).subscribe({
-            next: ({provider, value}) => {
-                if (value.data !== undefined) {
-                    setStatus("ok")
-                    // @ts-ignore
-                    setAudio(value.data.addedKaraoke.url);
-                    // @ts-ignore
-                    setLyrics(JSON.parse(value.data.addedKaraoke.lyrics));
-                }
-            }
-        });
-    }, [selectedSong])
+    // useEffect(() => {
+    //     API.graphql<GraphQLSubscription<Song>>(
+    //         graphqlOperation(subscriptions.addedKaraoke, {id: selectedSong?.id})
+    //     ).subscribe({
+    //         next: ({provider, value}) => {
+    //             if (value.data !== undefined) {
+    //                 setStatus("ok")
+    //                 // @ts-ignore
+    //                 setAudio(value.data.addedKaraoke.url);
+    //                 // @ts-ignore
+    //                 setLyrics(JSON.parse(value.data.addedKaraoke.lyrics));
+    //             }
+    //         }
+    //     });
+    // }, [selectedSong])
 
     // Sets audio and lyrics url whenever the subscription is updated when using Apollo API
     // useEffect(() => {
