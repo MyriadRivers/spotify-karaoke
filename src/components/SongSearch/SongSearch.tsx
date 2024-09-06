@@ -106,29 +106,15 @@ const SongSearch = ({api, setLyrics, setStatus, setAudio}: {api?: SpotifyApi, se
         // Reset the audio link
         setAudio("");
 
-        let lyricsResult = await fetch(`https://spotify-lyric-api-984e7b4face0.herokuapp.com/?trackid=${song.id}`);
+        // let lyricsResult = await fetch(`https://spotify-lyric-api-984e7b4face0.herokuapp.com/?trackid=${song.id}`);
         
-        if (lyricsResult.statusText === "OK") {
-            // setStatus("loading");
-            // CODE FOR COMMUNICATING WITH APPSYNC API
-            // await API.graphql(
-            //     graphqlOperation(mutations.requestKaraoke, {
-            //         name: song.name, 
-            //         artists: song.artists, 
-            //         duration: song.duration, 
-            //         id: song.id
-            //     })
-            // );
-            setStatus("ok")
-            let mockSong = mockBackendData.filter((track) => track.id === song.id)[0];
-            let mockURL = mockSong.audio;
-            let mockLyrics = mockSong.lyrics;
-            
-            setAudio(mockURL);
-            setLyrics(mockLyrics);
-        } else {
-            setStatus("error");
-        }
+        setStatus("ok")
+        let mockSong = mockBackendData.filter((track) => track.id === song.id)[0];
+        let mockURL = mockSong.audio;
+        let mockLyrics = mockSong.lyrics;
+        
+        setAudio(mockURL);
+        setLyrics(mockLyrics);
         
 
         // Apollo GraphQL Mutation notifies backend subscription and begins processes
